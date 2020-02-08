@@ -1,2 +1,1 @@
-# Vanilla-Javascript-Store
-Store web site using only vanilla javascript 
+# a Javascript Ecommerce Web site note files from JS bootcamp on Udemy

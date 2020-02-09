@@ -16,20 +16,24 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-app.post("/", (req, res) => {
-  req.on("data", data => {
-    // console.log(data);
-    // console.log(data.toString("utf8"));
-    // parse and create object
-    const parsed = data.toString("utf8").split("&");
-    const formData = {};
-    for (let pair of parsed) {
-      // es6 desturcture here
-      const [key, value] = pair.split("=");
-      formData[key] = value;
-    }
-    console.log(formData);
-  });
+const bodyParser = (req, res, next) => {
+  if (req.method === "POST") {
+    req.on("data", data => {
+      const parsed = data.toString("utf8").split("&");
+      const formData = {};
+      for (let pair of parsed) {
+        const [key, value] = pair.split("=");
+        formData[key] = value;
+      }
+      req.body = formData;
+      next();
+    });
+  } else {
+    next();
+  }
+};
+app.post("/", bodyParser, (req, res) => {
+  console.log(req.body);
   res.send("account created");
 });
 app.listen(port, () =>

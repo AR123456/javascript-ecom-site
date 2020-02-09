@@ -1,6 +1,10 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
+//Middleware   app.use wires it up
+// now bodyParser will parse any form for us.
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = 3000;
 
@@ -16,23 +20,9 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-const bodyParser = (req, res, next) => {
-  if (req.method === "POST") {
-    req.on("data", data => {
-      const parsed = data.toString("utf8").split("&");
-      const formData = {};
-      for (let pair of parsed) {
-        const [key, value] = pair.split("=");
-        formData[key] = value;
-      }
-      req.body = formData;
-      next();
-    });
-  } else {
-    next();
-  }
-};
-app.post("/", bodyParser, (req, res) => {
+// this works but would need to add to each post, better to use app.use above so that we have access to it all the time
+// app.post("/", bodyParser.urlencoded({ extended: true }), (req, res) => {
+app.post("/", (req, res) => {
   console.log(req.body);
   res.send("account created");
 });

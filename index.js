@@ -20,8 +20,6 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-// this works but would need to add to each post, better to use app.use above so that we have access to it all the time
-// app.post("/", bodyParser.urlencoded({ extended: true }), (req, res) => {
 app.post("/", (req, res) => {
   console.log(req.body);
   res.send("account created");

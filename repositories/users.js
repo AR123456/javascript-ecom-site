@@ -20,17 +20,16 @@ class UsersRepository {
     );
   }
   async create(attrs) {
-    // create takes in attributes the new user record will have.
-    // attributes will be an object with email ect
-    // need to add this object to the array of users
-    // need to write that update to users
-    //  password is temporaraly being stored with plain text
-    // load up the JSON file
     const records = await this.getAll();
-    // push in the new user
     records.push(attrs);
-    // write the updated records array back to this.filename - take data, make json and write to the file
-    await fs.promises.writeFile(this.filename, JSON.stringify(records));
+    await this.writeAll(records);
+  }
+  // taking the writing task and making it a reusable helper function
+  async writeAll(records) {
+    await fs.promises.writeFile(
+      this.filename,
+      JSON.stringify(records, null, 2)
+    ); // null and 2 help with formatting
   }
 }
 

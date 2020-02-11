@@ -11,21 +11,7 @@ class UsersRepository {
       fs.writeFileSync(this.filename, "[]");
     }
   }
-  //   // get all method
-  //   async getAll() {
-  //     // open  this.filename
-  //     const contents = await fs.promises.readFile(this.filename, {
-  //       encoding: "utf8"
-  //     });
-  //     // read contetns
-  //     // console.log(contents);
-  //     // parse the json
-  //     const data = JSON.parse(contents);
-  //     // return parsed data
-  //     return data;
-  //   }
-  // }
-  // get all method condensed
+
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
@@ -33,11 +19,25 @@ class UsersRepository {
       })
     );
   }
+  async create(attrs) {
+    // create takes in attributes the new user record will have.
+    // attributes will be an object with email ect
+    // need to add this object to the array of users
+    // need to write that update to users
+    //  password is temporaraly being stored with plain text
+    // load up the JSON file
+    const records = await this.getAll();
+    // push in the new user
+    records.push(attrs);
+    // write the updated records array back to this.filename - take data, make json and write to the file
+    await fs.promises.writeFile(this.filename, JSON.stringify(records));
+  }
 }
 
 // testing on the fly
 const test = async () => {
   const repo = new UsersRepository("users.json");
+  await repo.create({ email: "test@test.com", password: "password" });
   const users = await repo.getAll();
   console.log(users);
 };

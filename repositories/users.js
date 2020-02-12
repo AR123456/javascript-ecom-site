@@ -47,14 +47,32 @@ class UsersRepository {
     // pass filteredRecords into the write all funciton to store in the file
     await this.writeAll(filteredRecords);
   }
+  async update(id, attrs) {
+    // get all records then find the one we care about
+    const records = await this.getAll();
+    const record = records.find(record => record.id === id);
+    if (!record) {
+      throw new Error(`No record found with id of ${id}`);
+    }
+
+    // https://www.geeksforgeeks.org/object-assign-javascript/
+    // will take all of the differrend properties and key value paris insde the attrs object and copy thme one by one into the records object .   IE take all the properties from adders and assing them or copy them over to record
+    // record ==={email:"test@test.com"}
+    // attrs ==={password:"mypassword"}
+    Object.assign(record, attrs);
+    // record = {email:"test@test.com", password: "mypassword"}
+    /////
+    //write back to ile
+    await this.writeAll(records);
+  }
 }
 
 // testing on the fly
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  // await repo.create({ email: "test@test.com", password: "password" });
-  // const users = await repo.getAll();
-  // test delete
-  await repo.delete("2c592313");
+  // create a user
+  // await repo.create({ email: "test2@test2.com" });
+  // call update and add password
+  await repo.update("cdbdf6f6", { password: "password2" });
 };
 test();

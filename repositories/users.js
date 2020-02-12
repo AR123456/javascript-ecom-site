@@ -21,8 +21,6 @@ class UsersRepository {
     );
   }
   async create(attrs) {
-    // attach an id propterty to the attrs object
-    // call randomId on it
     attrs.id = this.randomId();
     const records = await this.getAll();
     records.push(attrs);
@@ -34,18 +32,25 @@ class UsersRepository {
       JSON.stringify(records, null, 2)
     );
   }
-  // this function will create a random ID to assign to items ( users or products) that are saved to the file
-  // using nodes crypto to generate the random number
   randomId() {
     return crypto.randomBytes(4).toString("hex");
+  }
+  async getOne(id) {
+    // get records
+    const records = await this.getAll();
+    // use find array method find first record with an id property === the value that was passed in
+    return records.find(record => record.id === id);
   }
 }
 
 // testing on the fly
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  await repo.create({ email: "test@test.com", password: "password" });
-  const users = await repo.getAll();
-  console.log(users);
+  // await repo.create({ email: "test@test.com", password: "password" });
+  // const users = await repo.getAll();
+
+  /// set up to test find one
+  const user = await repo.getOne("2c592313");
+  console.log(user);
 };
 test();

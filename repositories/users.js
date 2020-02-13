@@ -68,19 +68,4 @@ class UsersRepository {
     }
   }
 }
-
-// // testing on the fly
-// const test = async () => {
-//   const repo = new UsersRepository("users.json");
-//   // get one using email as a filter
-//   const user = await repo.getOneBy({
-//     email: "test2@test2.com"
-//   });
-//   console.log(user);
-// };
-// test();
-
-// export the class that is created in this file
-// module.exports = UsersRepository;
-// better way to export
 module.exports = new UsersRepository("users.json");

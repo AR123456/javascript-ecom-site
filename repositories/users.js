@@ -36,43 +36,55 @@ class UsersRepository {
     return crypto.randomBytes(4).toString("hex");
   }
   async getOne(id) {
-    // get records
     const records = await this.getAll();
-    // use find array method find first record with an id property === the value that was passed in
     return records.find(record => record.id === id);
   }
   async delete(id) {
     const records = await this.getAll();
     const filteredRecords = records.filter(record => record.id !== id);
-    // pass filteredRecords into the write all funciton to store in the file
     await this.writeAll(filteredRecords);
   }
   async update(id, attrs) {
-    // get all records then find the one we care about
     const records = await this.getAll();
     const record = records.find(record => record.id === id);
     if (!record) {
       throw new Error(`No record found with id of ${id}`);
     }
-
-    // https://www.geeksforgeeks.org/object-assign-javascript/
-    // will take all of the differrend properties and key value paris insde the attrs object and copy thme one by one into the records object .   IE take all the properties from adders and assing them or copy them over to record
-    // record ==={email:"test@test.com"}
-    // attrs ==={password:"mypassword"}
     Object.assign(record, attrs);
-    // record = {email:"test@test.com", password: "mypassword"}
-    /////
-    //write back to ile
     await this.writeAll(records);
+  }
+  // get one by a filter - filters object
+  async getOneBy(filters) {
+    //get the current copy of all recoreds
+    const records = await this.getAll();
+    // for of is for arrays
+    for (let record of records) {
+      // a temporary variable
+      let found = true;
+      // iterate over filters object and for ever key value pair look for match on the keys value
+      // use for in for an object
+      for (let key in filters) {
+        // if not the same update found to false
+        // look for the value of the object at that particular key looks lke this  filters[key];
+        if (record[key] !== filters[key]) {
+          // return what is true
+          found = false;
+        }
+      }
+      if (found === true) {
+        return record;
+      }
+    }
   }
 }
 
 // testing on the fly
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  // create a user
-  // await repo.create({ email: "test2@test2.com" });
-  // call update and add password
-  await repo.update("cdbdf6f6", { password: "password2" });
+  // get one using email as a filter
+  const user = await repo.getOneBy({
+    email: "test2@test2.com"
+  });
+  console.log(user);
 };
 test();

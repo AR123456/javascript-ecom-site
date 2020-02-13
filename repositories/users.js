@@ -53,21 +53,12 @@ class UsersRepository {
     Object.assign(record, attrs);
     await this.writeAll(records);
   }
-  // get one by a filter - filters object
   async getOneBy(filters) {
-    //get the current copy of all recoreds
     const records = await this.getAll();
-    // for of is for arrays
     for (let record of records) {
-      // a temporary variable
       let found = true;
-      // iterate over filters object and for ever key value pair look for match on the keys value
-      // use for in for an object
       for (let key in filters) {
-        // if not the same update found to false
-        // look for the value of the object at that particular key looks lke this  filters[key];
         if (record[key] !== filters[key]) {
-          // return what is true
           found = false;
         }
       }
@@ -78,13 +69,18 @@ class UsersRepository {
   }
 }
 
-// testing on the fly
-const test = async () => {
-  const repo = new UsersRepository("users.json");
-  // get one using email as a filter
-  const user = await repo.getOneBy({
-    email: "test2@test2.com"
-  });
-  console.log(user);
-};
-test();
+// // testing on the fly
+// const test = async () => {
+//   const repo = new UsersRepository("users.json");
+//   // get one using email as a filter
+//   const user = await repo.getOneBy({
+//     email: "test2@test2.com"
+//   });
+//   console.log(user);
+// };
+// test();
+
+// export the class that is created in this file
+// module.exports = UsersRepository;
+// better way to export
+module.exports = new UsersRepository("users.json");

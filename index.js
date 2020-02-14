@@ -37,6 +37,13 @@ app.post("/", async (req, res) => {
   if (password !== passwordConfirmation) {
     return res.send("passwords do not match ");
   }
+  //create user
+  const user = await usersRepo.create({ email, password });
+
+  // store id of that user in cookie
+  // expess API can handle cookies but 3rd party package can do that .  Cookies are hard to handel and easy to get wrong.  Better to use a libary
+  // npm install cookie-session
+
   res.send("account created");
 });
 app.listen(port, () =>

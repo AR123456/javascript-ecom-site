@@ -25,6 +25,8 @@ class UsersRepository {
     const records = await this.getAll();
     records.push(attrs);
     await this.writeAll(records);
+    // need to return the attrs id so that it is avalible to be added to the user
+    return attrs;
   }
   async writeAll(records) {
     await fs.promises.writeFile(

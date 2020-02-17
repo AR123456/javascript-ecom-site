@@ -60,7 +60,18 @@ app.get("/signin", (req, res) => {
   );
 });
 app.post("/signin", async (req, res) => {
- //
+  console.log(req.body);
+  const { email, password } = req.body;
+  const user = await usersRepo.getOneBy({ email });
+  if (!user) {
+    return res.send("email not found ");
+  } else {
+    if (user.password !== password) {
+      return res.send("invalid password");
+    }
+    req.session.userId = user.id;
+    res.send("You are signed in");
+  }
 });
 app.listen(port, () =>
   console.log(`App is listening on http://localhost:${port}`)

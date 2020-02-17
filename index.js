@@ -43,7 +43,6 @@ app.post("/signup", async (req, res) => {
   res.send("account created");
 });
 app.get("/signout", (req, res) => {
-  //tell browser to forget what is in the cookie
   req.session = null;
   res.send("you are logged out ");
 });

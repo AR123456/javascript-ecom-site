@@ -1,5 +1,11 @@
 const fs = require("fs");
 const crypto = require("crypto");
+// use promisify fuction from the library to store the hassed const with the user in the DB
+//turn the callback based version of this into a promise based version so we can use the async await syntax
+const util = require("util");
+
+const scrypt = util.promisify(crypto.scrypt);
+
 class UsersRepository {
   constructor(filename) {
     if (!filename) {
@@ -21,12 +27,36 @@ class UsersRepository {
     );
   }
   async create(attrs) {
+    // asume attrs ==={email: "", password:""}
+    //generate salt and append to paswword, then hash it
+    // nodejs crypto.randomeBytes to salt and crypto.scrypt to hash
     attrs.id = this.randomId();
+    const salt = crypto.randomBytes(8).toString("hex");
+    // scrypt(attrs.password, salt, 64, (err, buf) => {
+    //   const hashed = buf.toString("hex");
+    //   // use promisify fuction from the library to store the hassed const with the user in the DB
+    //   //turn the callback based version of this into a promise based version so we can use the async await syntax
+    // });
+    //// promisify version
+    const buf = await scrypt(attrs.password, salt, 64);
+
     const records = await this.getAll();
-    records.push(attrs);
+    const record = {
+      ...attrs,
+      password: `${buf.toString("hex")}.${salt}`
+    };
+    // no longer using the atters object which has the raw password
+    // records.push(attrs);
+    // records.push({
+    //   // take properties out of the attrs object
+    //   ...attrs,
+    //   // overwrite the password with this
+    //   password: `${buf.toString("hex")}.${salt}`
+    // });
+    records.push(record);
     await this.writeAll(records);
-    // need to return the attrs id so that it is avalible to be added to the user
-    return attrs;
+    // return attrs;
+    return record;
   }
   async writeAll(records) {
     await fs.promises.writeFile(

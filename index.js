@@ -66,7 +66,12 @@ app.post("/signin", async (req, res) => {
     return res.send("email not found ");
   } else {
     // update this comare using the salted and hashed password
-    if (user.password !== password) {
+    // this const will be true or false
+    const validPassword = await usersRepo.comparePasswords(
+      user.password,
+      password
+    );
+    if (!validPassword) {
       return res.send("invalid password");
     }
     req.session.userId = user.id;

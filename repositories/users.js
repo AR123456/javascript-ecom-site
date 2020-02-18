@@ -38,19 +38,10 @@ class UsersRepository {
     await this.writeAll(records);
     return record;
   }
-  // the new function to compare saved password to the password entered when user is logging in
   async comparePasswords(saved, supplied) {
-    // saved is what is in DB "hashed.salt"
-    // supplied is from user signing in
-    // split on the . to get the salt from the saved and then add it to the supplied, run through algorithm and compare
-    // const result = saved.split(".");
-    // const hashed = result[0];
-    // const salt = result[1];
-    // re written usning destructuring
     const [hashed, salt] = saved.split(".");
-    const hashedSupplied = await scrypt(supplied, salt, 64);
-    // return a true of false
-    return hashed === hashedSupplied.toString("hex");
+    const hashedSuppliedBuf = await scrypt(supplied, salt, 64);
+    return hashed === hashedSuppliedBuf.toString("hex");
   }
   async writeAll(records) {
     await fs.promises.writeFile(

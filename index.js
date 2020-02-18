@@ -65,6 +65,7 @@ app.post("/signin", async (req, res) => {
   if (!user) {
     return res.send("email not found ");
   } else {
+    // update this comare using the salted and hashed password
     if (user.password !== password) {
       return res.send("invalid password");
     }

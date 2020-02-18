@@ -1,7 +1,5 @@
 const fs = require("fs");
 const crypto = require("crypto");
-// use promisify fuction from the library to store the hassed const with the user in the DB
-//turn the callback based version of this into a promise based version so we can use the async await syntax
 const util = require("util");
 
 const scrypt = util.promisify(crypto.scrypt);
@@ -27,17 +25,8 @@ class UsersRepository {
     );
   }
   async create(attrs) {
-    // asume attrs ==={email: "", password:""}
-    //generate salt and append to paswword, then hash it
-    // nodejs crypto.randomeBytes to salt and crypto.scrypt to hash
     attrs.id = this.randomId();
     const salt = crypto.randomBytes(8).toString("hex");
-    // scrypt(attrs.password, salt, 64, (err, buf) => {
-    //   const hashed = buf.toString("hex");
-    //   // use promisify fuction from the library to store the hassed const with the user in the DB
-    //   //turn the callback based version of this into a promise based version so we can use the async await syntax
-    // });
-    //// promisify version
     const buf = await scrypt(attrs.password, salt, 64);
 
     const records = await this.getAll();
@@ -45,18 +34,23 @@ class UsersRepository {
       ...attrs,
       password: `${buf.toString("hex")}.${salt}`
     };
-    // no longer using the atters object which has the raw password
-    // records.push(attrs);
-    // records.push({
-    //   // take properties out of the attrs object
-    //   ...attrs,
-    //   // overwrite the password with this
-    //   password: `${buf.toString("hex")}.${salt}`
-    // });
     records.push(record);
     await this.writeAll(records);
-    // return attrs;
     return record;
+  }
+  // the new function to compare saved password to the password entered when user is logging in
+  async comparePasswords(saved, supplied) {
+    // saved is what is in DB "hashed.salt"
+    // supplied is from user signing in
+    // split on the . to get the salt from the saved and then add it to the supplied, run through algorithm and compare
+    // const result = saved.split(".");
+    // const hashed = result[0];
+    // const salt = result[1];
+    // re written usning destructuring
+    const [hashed, salt] = saved.split(".");
+    const hashedSupplied = await scrypt(supplied, salt, 64);
+    // return a true of false
+    return hashed === hashedSupplied.toString("hex");
   }
   async writeAll(records) {
     await fs.promises.writeFile(

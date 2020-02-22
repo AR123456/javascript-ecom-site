@@ -1,21 +1,11 @@
-// creating the sub router
 const express = require("express");
 const usersRepo = require("../../repositories/users");
-// creating the sub router
 const router = express.Router();
-// replace app with router
+// importing the signup and signin views
+const signupTemplate = require("../../views/admin/auth/signup");
+const signinTemplate = require("../../views/admin/auth/signin");
 router.get("/signup", (req, res) => {
-  res.send(
-    `<div> 
-      Your Id is: ${req.session.userId}
-    <form method="POST">
-    <input name="email" placeholder="email"/>
-    <input name="password" placeholder="password"/>
-    <input name="passwordConfirmation" placeholder="password confirmation"/>
-    <button>Sign Up</button>
-    </form>
-    </div>`
-  );
+  res.send(signupTemplate({ req: req }));
 });
 
 router.post("/signup", async (req, res) => {
@@ -38,16 +28,7 @@ router.get("/signout", (req, res) => {
   res.send("you are logged out ");
 });
 router.get("/signin", (req, res) => {
-  //
-  res.send(
-    `<div> 
-      <form method="POST">
-    <input name="email" placeholder="email"/>
-    <input name="password" placeholder="password"/>
-    <button>Sign In</button>
-    </form>
-    </div>`
-  );
+  res.send(signinTemplate({ req: req }));
 });
 router.post("/signin", async (req, res) => {
   console.log(req.body);

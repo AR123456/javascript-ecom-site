@@ -19,7 +19,13 @@ router.post(
   [requireEmail, requirePassword, requirePasswordConfirmation],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(errors);
+
+    // console.log(errors);
+    // check to see if errors occured
+    if (!errors.isEmpty()) {
+      // send the errors to views, auth signupljs template to show user
+      return res.send(signupTemplate({ req, errors }));
+    }
     const { email, password, passwordConfirmation } = req.body;
     const user = await usersRepo.create({ email, password });
     req.session.userId = user.id;

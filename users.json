@@ -1,20 +1,5 @@
 [
   {
-    "email": "test@test.com",
-    "password": "password",
-    "id": "34fbba97"
-  },
-  {
-    "email": "test2@test2.com",
-    "id": "cdbdf6f6",
-    "password": "password2"
-  },
-  {
-    "email": "test3@test3.com",
-    "password": "password3",
-    "id": "43fc3189"
-  },
-  {
     "email": "test5@test.com",
     "password": "cc09e57eceb39c9d52c8c312ec0571cdedd968693fc3bd7a0b6a2dff845747d555ecca9e8a3cdf9e27fbc09b996d23bcee2e3dd0b43c459a4057cac0a598018e.0d0ed41fe047842b",
     "id": "ff83432f"
@@ -28,15 +13,5 @@
     "email": "test@test.com",
     "password": "8826d3593c43287ca9d1ec5feb46a4da53644305141550ef4191bd2804abe1056499eb7401e85a7833e42d194bee56ea767b87bb807b4aeb9d4e16c5f04adde1.bcceee06c67dc222",
     "id": "7057950f"
-  },
-  {
-    "email": "test@test.com",
-    "password": "14b03c2c3850e8d8b004c4d6baceeebd7acb71952bf6ec33087330ddcdc97a98489136a6a358e7731cbeaa3fdde87bac866f50f4db07f4355a7dfe12660185cc.ac24d5f255903f0d",
-    "id": "81dd6077"
-  },
-  {
-    "email": "test@test.com",
-    "password": "30fa2cd6db9d29c7e76d482b121a1566f0f267f3da722cd8d58514810828113049b2fe3e0362273c1151554116efbb21305d429ed4143dd7d52afe2151bd72ab.f590d119d0ec0005",
-    "id": "64ea9e5e"
   }
 ]

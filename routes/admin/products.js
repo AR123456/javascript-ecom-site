@@ -1,11 +1,12 @@
 // import express
 const express = require("express");
+const productsRepo = require("../../repositories/products");
 
 // set up new router
 const router = express.Router();
 // stub out route handlers list products, show form to create product, submit create product form , show edit product , submit edited product and delet product
 ///1 list products
-router.get("./admin/products", (req, res) => {
+router.get("/admin/products", (req, res) => {
   //user is making request to admin/products
   //   res is response to browser
 });

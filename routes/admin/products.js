@@ -1,6 +1,7 @@
 // import express
 const express = require("express");
 const productsRepo = require("../../repositories/products");
+const productsNewTemplate = require("../../views/admin/products/new");
 
 // set up new router
 const router = express.Router();
@@ -14,6 +15,7 @@ router.get("/admin/products", (req, res) => {
 router.get("/admin/products/new", (req, res) => {
   //user is making request to admin/products/new
   //   res is response to browser
+  res.send(productsNewTemplate({}));
 });
 ///3 submit create product form
 ///4 show edit product route

@@ -12,3 +12,12 @@
 //writeAll  write all products to json file
 
 // since the methods for products and users are so similar will use a master class to keep it DRY
+
+const Repository = require("./repository");
+
+// make use of the generic repository in products
+class ProductsRepository extends Repository {
+  // will add more here
+}
+// create a new instance of productsRepository and export it
+module.exports = new ProductsRepository("products.json");

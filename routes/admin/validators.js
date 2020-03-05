@@ -2,6 +2,20 @@ const { check } = require("express-validator");
 const usersRepo = require("../../repositories/users");
 
 module.exports = {
+  // title is the "name" we gave it on the input form
+  requireTitle: check("title")
+    .notEmpty()
+    .isSlug()
+    .trim()
+    .isLength({ min: 5, max: 40 })
+    .withMessage("enter a valid title "),
+  requirePrice: check("price")
+    .notEmpty()
+    .trim()
+    // https://www.udemy.com/course/javascript-beginners-complete-tutorial/learn/lecture/17007492#overview
+    .toFloat()
+    .isFloat({ min: 1 }),
+
   requireEmail: check("email")
     .trim()
     .normalizeEmail()

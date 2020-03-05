@@ -8,13 +8,14 @@ module.exports = {
     .isSlug()
     .trim()
     .isLength({ min: 5, max: 40 })
-    .withMessage("enter a valid title "),
+    .withMessage("Must be title case and 5 to 40 chars"),
   requirePrice: check("price")
     .notEmpty()
     .trim()
     // https://www.udemy.com/course/javascript-beginners-complete-tutorial/learn/lecture/17007492#overview
     .toFloat()
-    .isFloat({ min: 1 }),
+    .isFloat({ min: 1 })
+    .withMessage("Must be a number greater than 1"),
 
   requireEmail: check("email")
     .trim()

@@ -25,7 +25,10 @@ router.post("/admin/products/new", [requireTitle, requireTitle], (req, res) => {
   //
   const errors = validationResult(req);
   // console.log(errors);
-  console.log(req.body);
+  // console.log(req.body);
+  req.on("data", data => {
+    // console.log(data.toString());
+  });
   res.send("submitted");
 });
 ///4 show edit product route

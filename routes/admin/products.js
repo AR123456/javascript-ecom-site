@@ -25,12 +25,17 @@ router.get("/admin/products/new", (req, res) => {
 // has 3 params route, validators and the ususal req,res
 router.post(
   "/admin/products/new",
-  [requireTitle, requireTitle],
+  // order is important here
   upload.single("image"),
+  [requireTitle, requirePrice],
+
   async (req, res) => {
     // turning the image into a string to store in product json file.
     // this is not a production appropriate solution
     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.send(productsNewTemplate({ errors }));
+    }
     const image = req.file.buffer.toString("base64");
     const { title, price } = req.body;
     // call the reusable create function in the repository.js file

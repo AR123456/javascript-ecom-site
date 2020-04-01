@@ -21,9 +21,9 @@ module.exports = class Repository {
     /// this is a generic create method that can be used for different non user records
     attrs.id = this.randomId();
     const records = await this.getAll();
-    records.push(attrs);
+    records.push(record);
     await this.writeAll(records);
-    return attrs;
+    return atters;
   }
   async getAll() {
     return JSON.parse(

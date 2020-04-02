@@ -22,16 +22,19 @@ router.get("/admin/products/new", (req, res) => {
   res.send(productsNewTemplate({}));
 });
 ///3 submit create product form
-// 3 params route, validators and the ususal req,res
+// has 3 params route, validators and the ususal req,res
 router.post(
   "/admin/products/new",
   [requireTitle, requireTitle],
   upload.single("image"),
-  (req, res) => {
-    //
+  async (req, res) => {
+    // turning the image into a string to store in product json file.
+    // this is not a production appropriate solution
     const errors = validationResult(req);
-    console.log(req.file);
-
+    const image = req.file.buffer.toString("base64");
+    const { title, price } = req.body;
+    // call the reusable create function in the repository.js file
+    await productsRepo.create({ title, price, image });
     res.send("submitted");
   }
 );

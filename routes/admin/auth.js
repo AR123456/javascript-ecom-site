@@ -25,7 +25,6 @@ router.post(
     const { email, password } = req.body;
     const user = await usersRepo.create({ email, password });
     req.session.userId = user.id;
-    // res.send("Account created!!!");
     res.redirect("/admin/products");
   }
 );

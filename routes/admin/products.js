@@ -38,6 +38,7 @@ router.post(
   }
 );
 ///4 show edit product route
+// the id of the product in the URL needs to be encoded
 /// 5 submit edited product
 /// 6 delete product
 // export the moule

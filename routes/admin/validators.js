@@ -2,19 +2,15 @@ const { check } = require("express-validator");
 const usersRepo = require("../../repositories/users");
 
 module.exports = {
-  // title is the "name" we gave it on the input form
   requireTitle: check("title")
     .trim()
     .isLength({ min: 5, max: 40 })
     .withMessage("Must be between 5 and 40 characters"),
   requirePrice: check("price")
-    .notEmpty()
     .trim()
-    // https://www.udemy.com/course/javascript-beginners-complete-tutorial/learn/lecture/17007492#overview
     .toFloat()
     .isFloat({ min: 1 })
     .withMessage("Must be a number greater than 1"),
-
   requireEmail: check("email")
     .trim()
     .normalizeEmail()
@@ -34,7 +30,7 @@ module.exports = {
     .trim()
     .isLength({ min: 4, max: 20 })
     .withMessage("Must be between 4 and 20 characters")
-    .custom((passwordConfirmation, { req }) => {
+    .custom(async (passwordConfirmation, { req }) => {
       if (passwordConfirmation !== req.body.password) {
         throw new Error("Passwords must match");
       }
@@ -57,6 +53,7 @@ module.exports = {
       if (!user) {
         throw new Error("Invalid password");
       }
+
       const validPassword = await usersRepo.comparePasswords(
         user.password,
         password

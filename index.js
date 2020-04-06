@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const authRouter = require("./routes/admin/auth");
-const productRouter = require("./routes/admin/products");
+const adminProductRouter = require("./routes/admin/products");
+const productsRouter = require("./routes/products");
 // express validator package https://express-validator.github.io/docs/sanitization.html
 const app = express();
 //middleware
@@ -16,7 +17,10 @@ app.use(
 // place right below other middleware
 app.use(authRouter);
 // associate the producst router with the app
-app.use(productRouter);
+app.use(adminProductRouter);
+// for user cart
+app.use(productsRouter);
+
 const port = 3000;
 
 app.listen(port, () =>

@@ -40,7 +40,7 @@ router.post(
 );
 ///4 show edit product route
 // the id of the product in the URL needs to be encoded
-router.get("/admin/products/:id/edit", async (req, res) => {
+router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
   // console.log(req.params.id);
   // get product values from the repo
   const product = await productsRepo.getOne(req.params.id);
@@ -50,6 +50,13 @@ router.get("/admin/products/:id/edit", async (req, res) => {
   res.send(productsEditTemplate({ product }));
 });
 /// 5 submit edited product
+router.post(
+  "/admin/products/:id/edit",
+  requireAuth,
+  (async(req, res) = {
+    //
+  })
+);
 /// 6 delete product
 // export the moule
 module.exports = router;

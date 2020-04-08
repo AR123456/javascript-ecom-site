@@ -4,13 +4,15 @@ const express = require("express");
 
 const router = express.Router();
 
-// add item to cart - form submit - post request on submit 
-// recive post request 
+// add item to cart - form submit - post request on submit
+// recive post request
+router.post("/cart/products", (req, res) => {
+  console.log(req.body.productId);
+  res.send("product added ");
+});
+// show the stuff in the cart
+// recive get
 
-// show the stuff in the cart 
-// recive get 
-
-//recive post 
-
+//recive post
 
 module.exports = router;

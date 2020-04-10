@@ -4,19 +4,12 @@ const { validationResult } = require("express-validator");
 
 module.exports = {
   // recive a template function and pass it in to the parans in handle Errors
-  handleErrors(templateFunc, dataCb) {
+  handleErrors(templateFunc) {
     ///return function that will be executed when a request comes in
-    return async (req, res, next) => {
+    return (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        // this needs to be a let and not const cause of scope
-        let data = {};
-        // call the datacb function
-        if (dataCb) {
-          data = await dataCb(req);
-        }
-        // merge  them here ... spead them in
-        return res.send(templateFunc({ errors, ...data }));
+        return res.send(templateFunc({ errors }));
       }
       next();
     };

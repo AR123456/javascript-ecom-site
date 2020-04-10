@@ -55,10 +55,7 @@ router.post(
   requireAuth,
   upload.single("image"),
   [requireTitle, requirePrice],
-  handleErrors(productsEditTemplate, async req => {
-    const product = await productsRepo.getOne(req.params.id);
-    return { product };
-  }),
+  handleErrors(productsEditTemplate),
   async (req, res) => {
     //take changes passed and apply to product in the repo
     const changes = req.body;
@@ -74,10 +71,6 @@ router.post(
   }
 );
 /// 6 delete product
-router.post("/admin/products/:id/delete", requireAuth, async (req, res) => {
-  await productsRepo.delete(req.params.id);
-  res.redirect("/admin/products");
-});
-// export the module
+// export the moule
 module.exports = router;
 // go to index.js and import this router

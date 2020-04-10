@@ -52,5 +52,8 @@ router.get("/cart", async (req, res) => {
 });
 
 //recive post
+router.post("/cart/product/delete", async (req, res) => {
+  res.send("product deleted ");
+});
 
 module.exports = router;

@@ -74,6 +74,10 @@ router.post(
   }
 );
 /// 6 delete product
-// export the moule
+router.post("/admin/products/:id/delete", requireAuth, async (req, res) => {
+  await productsRepo.delete(req.params.id);
+  res.redirect("/admin/products");
+});
+// export the module
 module.exports = router;
 // go to index.js and import this router

@@ -4,7 +4,7 @@ const cookieSession = require("cookie-session");
 const authRouter = require("./routes/admin/auth");
 const adminProductRouter = require("./routes/admin/products");
 const productsRouter = require("./routes/products");
-const cartRouter = required("./routes/carts.js");
+const cartRouter = require("./routes/carts.js");
 // express validator package https://express-validator.github.io/docs/sanitization.html
 const app = express();
 //middleware
@@ -22,7 +22,7 @@ app.use(adminProductRouter);
 // for user cart
 app.use(productsRouter);
 
-app.use(cartsRouter);
+app.use(cartRouter);
 const port = 3000;
 
 app.listen(port, () =>

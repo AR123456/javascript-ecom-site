@@ -1,2 +1,2 @@
 Note the is project is using a non production appropriate method for upload image storage. 
-For production " Presigned URL "  would be optimal. Like Outsdie Data Store Files from Amazon s#, Digital Ocean Spaces or Google Clud Storage 
+For production " Presigned URL "  would be optimal. Like Outsdie Data Store Files from Amazon s#, Digital Ocean Spaces or Google Cloud Storage 

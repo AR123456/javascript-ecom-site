@@ -1,6 +1,12 @@
 const express = require("express");
+// https://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4
+const bodyParser = require("body-parser");
 
 const app = express();
+//Middleware   app.use wires it up - only need to do this once now so all requests  are parsed
+// now bodyParser will parse any form for us.
+// app.use - this will be on any route but bodyParser will figure out if it is a get request and not run
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = 3000;
 
@@ -16,25 +22,9 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-// this is not the real body parser
-// next is express answer to call back
-const bodyParser = (req, res, next) => {
-  if (req.method === "POST") {
-    req.on("data", (data) => {
-      const parsed = data.toString("utf8").split("&");
-      const formData = {};
-      for (let pair of parsed) {
-        const [key, value] = pair.split("=");
-        formData[key] = value;
-      }
-      req.body = formData;
-      next();
-    });
-  } else {
-    next();
-  }
-};
-app.post("/", bodyParser, (req, res) => {
+// this works but would need to add to each post, better to use app.use above so that we have access to it all the time
+// app.post("/", bodyParser.urlencoded({ extended: true }), (req, res) => {
+app.post("/", (req, res) => {
   console.log(req.body);
   res.send("account created");
 });

@@ -5,13 +5,6 @@ const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => {
-  // by default when clcking the button inside the form or hitting the enter key on an input box the browser will make an automatic submission
-  // browser will then attempt to collect all the info in the input elements that have the "name" property assigned to them.
-  // after getting this the browser then adds that info to the url in a query string
-  // we can decode the query string to make a post request
-  // adding form method of POST which will be the method used when form gets submitted
-  // this overides the default behavior on the form of "GET"
-  // POST creates a record
   res.send(
     `<div> 
   <form method="POST">
@@ -23,16 +16,28 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-// express server needs a route to handle the POST from the form
-// look for an incomming request on / with a method of post, if you find that do what is in res.send
-// post info is not added to the query string in the URL , it is added to the request body
-// appended to request body property.  (request has a property called body )
+// get the data posted by the form off the request body
+// Header is sent first
+// server sees req
+// server runs callback - but dosent have all info yet so tell it to wait
+// then browser starts to transmit info from body in bits
 app.post("/", (req, res) => {
-  res.send(
-    `<div>
-  <h1>Account Created </h1>
-  </div>`
-  );
+  // the .on is almost identical to addEventListener, the event we are working with is data
+  req.on("data", (data) => {
+    // console.log(data);
+    // console.log(data.toString("utf8"));
+    // parse and create object - there are libraries for this which is better way to go in real life
+    const parsed = data.toString("utf8").split("&");
+    const formData = {};
+    for (let pair of parsed) {
+      // es6 desturcture here
+      const [key, value] = pair.split("=");
+      formData[key] = value;
+    }
+    //now it looks like an object 
+    console.log(formData);
+  });
+  res.send("account created");
 });
 app.listen(port, () =>
   console.log(`App is listening of port "http://localhost:${port}"`)

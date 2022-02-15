@@ -3,11 +3,17 @@ const express = require("express");
 const app = express();
 
 const port = 3000;
-// req is request from browser to the web server , res is sending back to them the browser
-// run the res.send call back function
+
 app.get("/", (req, res) => res.send("Hello World!"));
-// tell express where to listen for the res
+
 app.listen(port, () =>
+  //  in this HTTP request there are 4 things the
+  //  host - local host - this could be anything like google or amazon
+  //  port - 3000  - mosts of the time in real world the default is used
+  //  the path - /  - where on the sever to go, default is slash
+  //  were are doing app.get so the Method is "GET", when we hit enter key this happens. this is the intent of the req
+
+  // the GET request is registering the request with the router object, the router then passes off to the callback function
+
   console.log(`App is listening of port "http://localhost:${port}"`)
 );
-// when user types in local host 3000 in url this is the http req to the running web server on our machine

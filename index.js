@@ -16,27 +16,26 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-// get the data posted by the form off the request body
-// Header is sent first
-// server sees req
-// server runs callback - but dosent have all info yet so tell it to wait
-// then browser starts to transmit info from body in bits
-app.post("/", (req, res) => {
-  // the .on is almost identical to addEventListener, the event we are working with is data
-  req.on("data", (data) => {
-    // console.log(data);
-    // console.log(data.toString("utf8"));
-    // parse and create object - there are libraries for this which is better way to go in real life
-    const parsed = data.toString("utf8").split("&");
-    const formData = {};
-    for (let pair of parsed) {
-      // es6 desturcture here
-      const [key, value] = pair.split("=");
-      formData[key] = value;
-    }
-    //now it looks like an object 
-    console.log(formData);
-  });
+// this is not the real body parser
+// next is express answer to call back
+const bodyParser = (req, res, next) => {
+  if (req.method === "POST") {
+    req.on("data", (data) => {
+      const parsed = data.toString("utf8").split("&");
+      const formData = {};
+      for (let pair of parsed) {
+        const [key, value] = pair.split("=");
+        formData[key] = value;
+      }
+      req.body = formData;
+      next();
+    });
+  } else {
+    next();
+  }
+};
+app.post("/", bodyParser, (req, res) => {
+  console.log(req.body);
   res.send("account created");
 });
 app.listen(port, () =>

@@ -1,6 +1,10 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
+//Middleware   app.use wires it up
+// now bodyParser will parse any form for us.
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = 3000;
 
@@ -16,27 +20,9 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-// get the data posted by the form off the request body
-// Header is sent first
-// server sees req
-// server runs callback - but dosent have all info yet so tell it to wait
-// then browser starts to transmit info from body in bits
 app.post("/", (req, res) => {
-  // the .on is almost identical to addEventListener, the event we are working with is data
-  req.on("data", (data) => {
-    // console.log(data);
-    // console.log(data.toString("utf8"));
-    // parse and create object - there are libraries for this which is better way to go in real life
-    const parsed = data.toString("utf8").split("&");
-    const formData = {};
-    for (let pair of parsed) {
-      // es6 desturcture here
-      const [key, value] = pair.split("=");
-      formData[key] = value;
-    }
-    //now it looks like an object 
-    console.log(formData);
-  });
+  // console.log of what is in the post request from the form
+  console.log(req.body);
   res.send("account created");
 });
 app.listen(port, () =>

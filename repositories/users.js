@@ -1,4 +1,5 @@
 const fs = require("fs");
+const crypto = require("crypto");
 class UsersRepository {
   constructor(filename) {
     if (!filename) {
@@ -15,21 +16,29 @@ class UsersRepository {
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8"
+        encoding: "utf8",
       })
     );
   }
   async create(attrs) {
+    // attach an id propterty to the attrs object
+    // call randomId on it
+    attrs.id = this.randomId();
     const records = await this.getAll();
     records.push(attrs);
     await this.writeAll(records);
   }
-  // taking the writing task and making it a reusable helper function
   async writeAll(records) {
     await fs.promises.writeFile(
       this.filename,
       JSON.stringify(records, null, 2)
-    ); // null-custom formatter  and 2 - this desigates the level of indentaion  help with formatting puts each on its own line in the json file 
+    );
+  }
+  // this function will create a random ID to assign to items ( users or products) that are saved to the file
+  // using nodes crypto to generate the random number
+  randomId() {
+    // https://nodejs.org/api/crypto.html#cryptorandombytessize-callback
+    return crypto.randomBytes(4).toString("hex");
   }
 }
 

@@ -1,12 +1,6 @@
 const express = require("express");
-// https://stackoverflow.com/questions/24330014/bodyparser-is-deprecated-express-4
-const bodyParser = require("body-parser");
 
 const app = express();
-//Middleware   app.use wires it up - only need to do this once now so all requests  are parsed
-// now bodyParser will parse any form for us.
-// app.use - this will be on any route but bodyParser will figure out if it is a get request and not run
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = 3000;
 
@@ -22,10 +16,27 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-// this works but would need to add to each post, better to use app.use above so that we have access to it all the time
-// app.post("/", bodyParser.urlencoded({ extended: true }), (req, res) => {
+// get the data posted by the form off the request body
+// Header is sent first
+// server sees req
+// server runs callback - but dosent have all info yet so tell it to wait
+// then browser starts to transmit info from body in bits
 app.post("/", (req, res) => {
-  console.log(req.body);
+  // the .on is almost identical to addEventListener, the event we are working with is data
+  req.on("data", (data) => {
+    // console.log(data);
+    // console.log(data.toString("utf8"));
+    // parse and create object - there are libraries for this which is better way to go in real life
+    const parsed = data.toString("utf8").split("&");
+    const formData = {};
+    for (let pair of parsed) {
+      // es6 desturcture here
+      const [key, value] = pair.split("=");
+      formData[key] = value;
+    }
+    //now it looks like an object 
+    console.log(formData);
+  });
   res.send("account created");
 });
 app.listen(port, () =>

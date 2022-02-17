@@ -11,22 +11,34 @@ class UsersRepository {
       fs.writeFileSync(this.filename, "[]");
     }
   }
-  // get all method
+  //   // get all method
+  //   async getAll() {
+  //     // open  this.filename
+  //     const contents = await fs.promises.readFile(this.filename, {
+  //       encoding: "utf8"
+  //     });
+  //     // read contetns
+  //     // console.log(contents);
+  //     // parse the json
+  //     const data = JSON.parse(contents);
+  //     // return parsed data
+  //     return data;
+  //   }
+  // }
+  // get all method condensed
   async getAll() {
-    // open  this.filename
-    const contents = await fs.promises.readFile(this.filename, {
-      encoding: "utf8"
-    });
-    // read contetns
-    console.log(contents);
-    // parse the json
-    // return parsed data
+    return JSON.parse(
+      await fs.promises.readFile(this.filename, {
+        encoding: "utf8"
+      })
+    );
   }
 }
 
 // testing on the fly
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  await repo.getAll();
+  const users = await repo.getAll();
+  console.log(users);
 };
 test();

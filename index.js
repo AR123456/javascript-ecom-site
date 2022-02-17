@@ -21,7 +21,6 @@ app.get("/", (req, res) => {
   );
 });
 app.post("/", (req, res) => {
-  // console.log of what is in the post request from the form
   console.log(req.body);
   res.send("account created");
 });

@@ -1,4 +1,5 @@
 const fs = require("fs");
+const crypto = require("crypto");
 class UsersRepository {
   constructor(filename) {
     if (!filename) {
@@ -15,29 +16,41 @@ class UsersRepository {
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8",
+        encoding: "utf8"
       })
     );
   }
   async create(attrs) {
+    attrs.id = this.randomId();
     const records = await this.getAll();
     records.push(attrs);
     await this.writeAll(records);
   }
-  // taking the writing task and making it a reusable helper function
   async writeAll(records) {
     await fs.promises.writeFile(
       this.filename,
       JSON.stringify(records, null, 2)
-    ); // null-custom formatter  and 2 - this desigates the level of indentaion  help with formatting puts each on its own line in the json file
+    );
+  }
+  randomId() {
+    return crypto.randomBytes(4).toString("hex");
+  }
+  async getOne(id) {
+    // get records
+    const records = await this.getAll();
+    // use find array method find first record with an id property === the value that was passed in
+    return records.find(record => record.id === id);
   }
 }
 
 // testing on the fly
 const test = async () => {
   const repo = new UsersRepository("users.json");
-  await repo.create({ email: "test@test.com", password: "password" });
-  const users = await repo.getAll();
-  console.log(users);
+  // await repo.create({ email: "test@test.com", password: "password" });
+  // const users = await repo.getAll();
+
+  /// set up to test find one
+  const user = await repo.getOne("2c592313");
+  console.log(user);
 };
 test();

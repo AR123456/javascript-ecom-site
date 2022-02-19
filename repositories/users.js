@@ -16,7 +16,7 @@ class UsersRepository {
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8"
+        encoding: "utf8",
       })
     );
   }
@@ -39,7 +39,14 @@ class UsersRepository {
     // get records
     const records = await this.getAll();
     // use find array method find first record with an id property === the value that was passed in
-    return records.find(record => record.id === id);
+    return records.find((record) => record.id === id);
+  }
+  async delete(id) {
+    const records = await this.getAll();
+    //filter retains elements that return true, filters out false
+    const filteredRecords = records.filter((record) => record.id !== id);
+    // pass filteredRecords into the write all funciton to store in the file on the local computer
+    await this.writeAll(filteredRecords);
   }
 }
 
@@ -48,9 +55,7 @@ const test = async () => {
   const repo = new UsersRepository("users.json");
   // await repo.create({ email: "test@test.com", password: "password" });
   // const users = await repo.getAll();
-
-  /// set up to test find one
-  const user = await repo.getOne("2c592313");
-  console.log(user);
+  // test delete
+  await repo.delete("2c592313");
 };
 test();

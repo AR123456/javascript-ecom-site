@@ -23,11 +23,10 @@ app.get("/", (req, res) => {
 });
 // user account creation route
 app.post("/", async (req, res) => {
-  //are password and confirmation password different
+  //are password and confrimation password different
   console.log(req.body); // req.body is object of properties from form name inputs
   const { email, password, passwordConfirmation } = req.body;
-  // has someone used this email already ?
-  // create an existing user const to store use of the method from the users.js file in repositories
+  // create an existing user const to store use of the method from the users.js file
   const existingUser = await usersRepo.getOneBy({ email: email });
 
   //is email already taken
@@ -35,7 +34,6 @@ app.post("/", async (req, res) => {
   if (existingUser) {
     return res.send("email taken ");
   }
-  // here do not need to check the user.json just checking users input
   if (password !== passwordConfirmation) {
     return res.send("passwords do not match ");
   }

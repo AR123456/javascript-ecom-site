@@ -1,17 +1,27 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+// cookie session is a middle ware so need to wire up below using app.use
+const cookieSession = require("cookie-session");
 const usersRepo = require("./repositories/users");
 
 const app = express();
-//Middleware   app.use wires it up
-// now bodyParser will parse any form for us.
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cookieSession({
+    // confguration object with the keys
+    // keys is a random set of characters
+    //used to encrypt info in the cookie
+    keys: ["adfkjafdkjl"],
+  })
+);
 
 const port = 3000;
 
 app.get("/", (req, res) => {
+  // req.session.userId  is being stored in the browser we can get this using cookie-session and display to user
   res.send(
     `<div> 
+    Your Id is: ${req.session.userId}
   <form method="POST">
   <input name="email" placeholder="email"/>
   <input name="password" placeholder="password"/>
@@ -21,16 +31,11 @@ app.get("/", (req, res) => {
   </div>`
   );
 });
-// user account creation route
+// cookie session adds an additional property ot the req object - or incoming request ( req.session)
 app.post("/", async (req, res) => {
-  //are password and confrimation password different
-  console.log(req.body); // req.body is object of properties from form name inputs
+  console.log(req.body);
   const { email, password, passwordConfirmation } = req.body;
-  // create an existing user const to store use of the method from the users.js file
   const existingUser = await usersRepo.getOneBy({ email: email });
-
-  //is email already taken
-  // if existing user is defined meaning getOneBy finds something
   if (existingUser) {
     return res.send("email taken ");
   }
@@ -38,12 +43,12 @@ app.post("/", async (req, res) => {
     return res.send("passwords do not match ");
   }
   //create user
-  // key value same so can just enter once, assigning what is returned from users.js to const user
   const user = await usersRepo.create({ email, password });
 
   // store id of that user in cookie
-  // express API can handle cookies but 3rd party package can do that .  Cookies are hard to handel and easy to get wrong.  Better to use a libary
-  // npm install cookie-session
+  // expess API can handle cookies but 3rd party package can do that .  Cookies are hard to handel and easy to get wrong.  Better to use a libary
+  // req.session === {}; // added by cookie-session its a JS object, any info in the object is maintained by cookie session
+  req.session.userId = user.id;
 
   res.send("account created");
 });

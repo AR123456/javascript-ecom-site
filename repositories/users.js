@@ -16,7 +16,7 @@ class UsersRepository {
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8"
+        encoding: "utf8",
       })
     );
   }
@@ -25,6 +25,9 @@ class UsersRepository {
     const records = await this.getAll();
     records.push(attrs);
     await this.writeAll(records);
+    // need to return the attrs id so that it is available  to be added to the user
+    // here returning the entire object
+    return attrs;
   }
   async writeAll(records) {
     await fs.promises.writeFile(
@@ -37,16 +40,16 @@ class UsersRepository {
   }
   async getOne(id) {
     const records = await this.getAll();
-    return records.find(record => record.id === id);
+    return records.find((record) => record.id === id);
   }
   async delete(id) {
     const records = await this.getAll();
-    const filteredRecords = records.filter(record => record.id !== id);
+    const filteredRecords = records.filter((record) => record.id !== id);
     await this.writeAll(filteredRecords);
   }
   async update(id, attrs) {
     const records = await this.getAll();
-    const record = records.find(record => record.id === id);
+    const record = records.find((record) => record.id === id);
     if (!record) {
       throw new Error(`No record found with id of ${id}`);
     }

@@ -16,7 +16,7 @@ class UsersRepository {
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8",
+        encoding: "utf8"
       })
     );
   }
@@ -37,16 +37,16 @@ class UsersRepository {
   }
   async getOne(id) {
     const records = await this.getAll();
-    return records.find((record) => record.id === id);
+    return records.find(record => record.id === id);
   }
   async delete(id) {
     const records = await this.getAll();
-    const filteredRecords = records.filter((record) => record.id !== id);
+    const filteredRecords = records.filter(record => record.id !== id);
     await this.writeAll(filteredRecords);
   }
   async update(id, attrs) {
     const records = await this.getAll();
-    const record = records.find((record) => record.id === id);
+    const record = records.find(record => record.id === id);
     if (!record) {
       throw new Error(`No record found with id of ${id}`);
     }
@@ -68,23 +68,4 @@ class UsersRepository {
     }
   }
 }
-
-// // testing on the fly
-// const test = async () => {
-//   const repo = new UsersRepository("users.json");
-//   // get one using email as a filter
-//   const user = await repo.getOneBy({
-//     email: "test2@test2.com"
-//   });
-//   console.log(user);
-// };
-// test();
-
-// export the class that is created in this file
-// module.exports = UsersRepository;
-// better way to export - export an instance of the class
 module.exports = new UsersRepository("users.json");
-// so for the import in anoher file would look like this
-// const repo = require("./users");
-// repo.getAll()
-// get.getOne()

@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
-    keys: ["adfkjafdkjl"],
+    keys: ["adfkjafdkjl"]
   })
 );
 
@@ -43,7 +43,6 @@ app.post("/signup", async (req, res) => {
   res.send("account created");
 });
 app.get("/signout", (req, res) => {
-  //tell browser to forget what is in the cookie
   req.session = null;
   res.send("you are logged out ");
 });
@@ -69,7 +68,6 @@ app.post("/signin", async (req, res) => {
     if (user.password !== password) {
       return res.send("invalid password");
     }
-    // user is considered to be authenticated by app
     req.session.userId = user.id;
     res.send("You are signed in");
   }

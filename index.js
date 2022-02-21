@@ -59,14 +59,20 @@ app.get("/signin", (req, res) => {
   );
 });
 app.post("/signin", async (req, res) => {
+  // req.body is all the info passed to us from the form 
   console.log(req.body);
   const { email, password } = req.body;
   const user = await usersRepo.getOneBy({ email });
   if (!user) {
     return res.send("email not found ");
   } else {
-    // update this comare using the salted and hashed password
-    if (user.password !== password) {
+    // update this compare using the salted and hashed password
+    // this const will be true or false
+    const validPassword = await usersRepo.comparePasswords(
+      user.password,
+      password
+    );
+    if (!validPassword) {
       return res.send("invalid password");
     }
     req.session.userId = user.id;

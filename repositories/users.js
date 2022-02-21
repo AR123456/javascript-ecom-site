@@ -1,10 +1,7 @@
 const fs = require("fs");
-// crypto is part of node.js  so no extra package needed
 const crypto = require("crypto");
-// use promisify function from the library to store the hashed const with the user in the DB
-//turn the callback based version of this into a promise based version so we can use the async await syntax
 const util = require("util");
-// scrypt come from node.js, hashing system, running through promisify so we can use async await
+
 const scrypt = util.promisify(crypto.scrypt);
 
 class UsersRepository {
@@ -23,41 +20,37 @@ class UsersRepository {
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8",
+        encoding: "utf8"
       })
     );
   }
   async create(attrs) {
-    // asume attrs ==={email: "", password:""}
-    //generate salt and append to paswword, then hash it
-    // nodejs crypto.randomeBytes to salt and crypto.scrypt to hash
     attrs.id = this.randomId();
     const salt = crypto.randomBytes(8).toString("hex");
-    // scrypt(attrs.password, salt, 64, (err, buf) => {
-    //   const hashed = buf.toString("hex");
-    //   // use promisify fuction from the library to store the hassed const with the user in the DB
-    //   //turn the callback based version of this into a promise based version so we can use the async await syntax
-    // });
-    //// promisify version
     const buf = await scrypt(attrs.password, salt, 64);
 
     const records = await this.getAll();
     const record = {
       ...attrs,
-      password: `${buf.toString("hex")}.${salt}`,
+      password: `${buf.toString("hex")}.${salt}`
     };
-    // no longer using the atters object which has the raw password
-    // records.push(attrs);
-    // records.push({
-    //   // take properties out of the attrs object
-    //   ...attrs,
-    //   // overwrite the password with this
-    //   password: `${buf.toString("hex")}.${salt}`
-    // });
     records.push(record);
     await this.writeAll(records);
-    // return attrs;
     return record;
+  }
+  // the new function to compare saved password to the password entered when user is logging in
+  async comparePasswords(saved, supplied) {
+    // saved is what is in DB "hashed.salt"
+    // supplied is from user signing in
+    // split on the . to get the salt from the saved and then add it to the supplied, run through algorithm and compare
+    // const result = saved.split(".");
+    // const hashed = result[0];
+    // const salt = result[1];
+    // re written usning destructuring
+    const [hashed, salt] = saved.split(".");
+    const hashedSupplied = await scrypt(supplied, salt, 64);
+    // return a true of false
+    return hashed === hashedSupplied.toString("hex");
   }
   async writeAll(records) {
     await fs.promises.writeFile(
@@ -70,16 +63,16 @@ class UsersRepository {
   }
   async getOne(id) {
     const records = await this.getAll();
-    return records.find((record) => record.id === id);
+    return records.find(record => record.id === id);
   }
   async delete(id) {
     const records = await this.getAll();
-    const filteredRecords = records.filter((record) => record.id !== id);
+    const filteredRecords = records.filter(record => record.id !== id);
     await this.writeAll(filteredRecords);
   }
   async update(id, attrs) {
     const records = await this.getAll();
-    const record = records.find((record) => record.id === id);
+    const record = records.find(record => record.id === id);
     if (!record) {
       throw new Error(`No record found with id of ${id}`);
     }

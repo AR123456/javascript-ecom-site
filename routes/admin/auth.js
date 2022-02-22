@@ -1,6 +1,6 @@
 const express = require("express");
 // destructure check from express-validator so not expressValidator.check is needed, can just use check
-const { check } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const usersRepo = require("../../repositories/users");
 const router = express.Router();
 const signupTemplate = require("../../views/admin/auth/signup");
@@ -16,17 +16,24 @@ router.get("/signup", (req, res) => {
 // then check that it is an email
 //the oject that comes back contains any errors getting the data
 router.post(
-  "/signup",[
+  "/signup",
+  [
     // passing in the array for express validator
     // experss validator uses the validator library in a way that is easy for express
-    // validation checks to make sure it satisfys criteria 
-    // sanitization  changes the value that the user has provided - to make sure the value is reliable like taking out white space 
-    
-    check("email"),
-    check("password"),
+    // validation checks to make sure it satisfys criteria
+    // sanitization  changes the value that the user has provided - to make sure the value is reliable like taking out white space
+    // sanatize first then validate
+    check("email")
+      .trim()
+      .normalizeEmail()
+      .isEmail(),
+    check("password")
+      .trim()
+      .isLength({ min: 4, max: 20 }),
     check("passwordConfirmation")
-
-  ]
+      .trim()
+      .isLength({ min: 4, max: 20 })
+  ],
 
   async (req, res) => {
     // console.log(req.body);
@@ -44,8 +51,10 @@ router.post(
     // const user = await usersRepo.create({ email, password });
     // req.session.userId = user.id;
     // res.send("account created");
-    //// the expresss way
-    console.log(req.body);
+    //// the expresss validator way
+    // express validator is adding teh results of the checks above to the request object - this is how it is getting into the function
+    const errors = validationResult(req);
+    console.log(errors);
     const { email, password, passwordConfirmation } = req.body;
     const existingUser = await usersRepo.getOneBy({ email: email });
     // getting the error messages below into the template(form) using this method is challanging

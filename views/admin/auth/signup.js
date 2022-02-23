@@ -1,8 +1,5 @@
 const layout = require("../layout");
-// create a function to generate the HTML and export it
-// pass in the req object
 module.exports = ({ req }) => {
-  //
   return layout({
     content: `
   <div> 

@@ -1,16 +1,16 @@
-const layout = require("../layout");
+// create a function to generate the HTML and export it
+// pass in the req object so that it renders correctly(coming from route handler)
 module.exports = ({ req }) => {
-  return layout({
-    content: `
+  //
+  return `
   <div> 
   Your Id is: ${req.session.userId}
-  <form method="POST">
-  <input name="email" placeholder="email"/>
-  <input name="password" placeholder="password"/>
-  <input name="passwordConfirmation" placeholder="password confirmation"/>
-  <button>Sign Up</button>
-  </form>
-  </div>
-  `
-  });
+<form method="POST">
+<input name="email" placeholder="email"/>
+<input name="password" placeholder="password"/>
+<input name="passwordConfirmation" placeholder="password confirmation"/>
+<button>Sign Up</button>
+</form>
+</div>
+  `;
 };

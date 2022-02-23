@@ -4,6 +4,13 @@ const usersRepo = require("../../repositories/users");
 const router = express.Router();
 const signupTemplate = require("../../views/admin/auth/signup");
 const signinTemplate = require("../../views/admin/auth/signin");
+// moved this validators out ao auth.js , here just importing as require email ect
+// makes the code in this file easier to read and manage
+const {
+  requireEmail,
+  requirePassword,
+  requirePasswordConfirmation,
+} = require("./validators.js");
 
 router.get("/signup", (req, res) => {
   res.send(signupTemplate({ req: req }));
@@ -11,29 +18,7 @@ router.get("/signup", (req, res) => {
 
 router.post(
   "/signup",
-  [
-    check("email")
-      .trim()
-      .normalizeEmail()
-      .isEmail()
-      // express validator custom function async await syntax is there a user with this email?
-      .custom(async (email) => {
-        const existingUser = await usersRepo.getOneBy({ email: email });
-        if (existingUser) {
-          // this will be shown to the user
-          throw new Error("Email is in use ");
-        }
-      }),
-    check("password").trim().isLength({ min: 4, max: 20 }),
-    check("passwordConfirmation")
-      .trim()
-      .isLength({ min: 4, max: 20 })
-      .custom(async (passwordConfirmation, { req }) => {
-        if (passwordConfirmation !== req.body.password) {
-          throw new Error("passwords do not match ");
-        }
-      }),
-  ],
+  [requireEmail, requirePassword, requirePasswordConfirmation],
   async (req, res) => {
     const errors = validationResult(req);
     console.log(errors);

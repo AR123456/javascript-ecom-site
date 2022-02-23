@@ -3,7 +3,6 @@ const { check, validationResult } = require("express-validator");
 const usersRepo = require("../../repositories/users");
 
 module.exports = {
-  // assigning the result of this email check to requireEmail , then exporting to use in auth.js
   requireEmail: check("email")
     .trim()
     .normalizeEmail()

@@ -4,12 +4,10 @@ const usersRepo = require("../../repositories/users");
 const router = express.Router();
 const signupTemplate = require("../../views/admin/auth/signup");
 const signinTemplate = require("../../views/admin/auth/signin");
-// moved this validators out ao auth.js , here just importing as require email ect
-// makes the code in this file easier to read and manage
 const {
   requireEmail,
   requirePassword,
-  requirePasswordConfirmation,
+  requirePasswordConfirmation
 } = require("./validators.js");
 
 router.get("/signup", (req, res) => {
@@ -21,7 +19,13 @@ router.post(
   [requireEmail, requirePassword, requirePasswordConfirmation],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(errors);
+
+    // console.log(errors);
+    // check to see if errors occured
+    if (!errors.isEmpty()) {
+      // send the errors to views, auth signupljs template to show user
+      return res.send(signupTemplate({ req, errors }));
+    }
     const { email, password, passwordConfirmation } = req.body;
     const user = await usersRepo.create({ email, password });
     req.session.userId = user.id;

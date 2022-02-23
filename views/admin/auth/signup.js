@@ -1,5 +1,5 @@
 // create a function to generate the HTML and export it
-// pass in the req object so that it renders correctly(coming from route handler)
+// pass in the req object
 module.exports = ({ req }) => {
   //
   return `

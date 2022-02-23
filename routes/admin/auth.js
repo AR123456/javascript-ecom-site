@@ -1,7 +1,7 @@
 const express = require("express");
 const usersRepo = require("../../repositories/users");
 const router = express.Router();
-// importing the signup and signin views this is just an html string using HTML syntax so browser renders it that way
+// importing the signup and signin views
 const signupTemplate = require("../../views/admin/auth/signup");
 const signinTemplate = require("../../views/admin/auth/signin");
 router.get("/signup", (req, res) => {

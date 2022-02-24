@@ -1,6 +1,3 @@
-//array of helper objects can be imported where needed and needed oject used as function
-// using in singin and signup js
-
 module.exports = {
   getError(errors, prop) {
     try {
@@ -8,5 +5,5 @@ module.exports = {
     } catch (err) {
       return "";
     }
-  },
+  }
 };

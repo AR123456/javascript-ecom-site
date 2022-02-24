@@ -5,7 +5,7 @@ const authRouter = require("./routes/admin/auth");
 // express validator package https://express-validator.github.io/docs/sanitization.html
 const app = express();
 //middleware
-
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({

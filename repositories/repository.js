@@ -1,4 +1,5 @@
-// home of the base class with all of the methods that will be shared between users and products and any other future repository
+// home of the base class with all of the methods that will be shared between
+//users and products and any other future repository
 
 const fs = require("fs");
 const crypto = require("crypto");
@@ -17,18 +18,21 @@ module.exports = class Repository {
       fs.writeFileSync(this.filename, "[]");
     }
   }
+  /// this is important and is needed because the create that was here is now in users and products
+  /// the create in products and users are slightly difrent.
   async create(attrs) {
     /// this is a generic create method that can be used for different non user records
     attrs.id = this.randomId();
     const records = await this.getAll();
     records.push(record);
+    // if this was a db would be writing to it.
     await this.writeAll(records);
     return atters;
   }
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8"
+        encoding: "utf8",
       })
     );
   }
@@ -44,16 +48,16 @@ module.exports = class Repository {
   }
   async getOne(id) {
     const records = await this.getAll();
-    return records.find(record => record.id === id);
+    return records.find((record) => record.id === id);
   }
   async delete(id) {
     const records = await this.getAll();
-    const filteredRecords = records.filter(record => record.id !== id);
+    const filteredRecords = records.filter((record) => record.id !== id);
     await this.writeAll(filteredRecords);
   }
   async update(id, attrs) {
     const records = await this.getAll();
-    const record = records.find(record => record.id === id);
+    const record = records.find((record) => record.id === id);
     if (!record) {
       throw new Error(`No record found with id of ${id}`);
     }

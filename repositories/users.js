@@ -8,7 +8,7 @@ const scrypt = util.promisify(crypto.scrypt);
 //"extends" means look at the different methods assigned repository and kind of copy paste them into the body of the UserRepository class
 
 class UsersRepository extends Repository {
-  // this is specfic to the users repo so stays
+  // this is specific to the users repo so stays
   async create(attrs) {
     attrs.id = this.randomId();
     const salt = crypto.randomBytes(8).toString("hex");

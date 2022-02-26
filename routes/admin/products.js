@@ -24,12 +24,13 @@ router.get("/admin/products/new", (req, res) => {
 router.post("/admin/products/new", [requireTitle, requireTitle], (req, res) => {
   //
   const errors = validationResult(req);
-  console.log(errors);
+  // console.log(errors);
+  console.log(req.body);
   res.send("submitted");
 });
 ///4 show edit product route
 /// 5 submit edited product
 /// 6 delete product
-// export the module
+// export the moule
 module.exports = router;
 // go to index.js and import this router

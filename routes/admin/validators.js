@@ -8,21 +8,21 @@ module.exports = {
     .isSlug()
     .trim()
     .isLength({ min: 5, max: 40 })
-    .withMessage("enter a valid title "),
+    .withMessage("Must be title case and 5 to 40 chars"),
   requirePrice: check("price")
     .notEmpty()
     .trim()
     // https://www.udemy.com/course/javascript-beginners-complete-tutorial/learn/lecture/17007492#overview
-    // this is a string , needs to be a number
     .toFloat()
-    .isFloat({ min: 1 }),
+    .isFloat({ min: 1 })
+    .withMessage("Must be a number greater than 1"),
 
   requireEmail: check("email")
     .trim()
     .normalizeEmail()
     .isEmail()
     .withMessage("Must be a valid email")
-    .custom(async (email) => {
+    .custom(async email => {
       const existingUser = await usersRepo.getOneBy({ email });
       if (existingUser) {
         throw new Error("Email in use");
@@ -46,7 +46,7 @@ module.exports = {
     .normalizeEmail()
     .isEmail()
     .withMessage("Must provide a valid email")
-    .custom(async (email) => {
+    .custom(async email => {
       const user = await usersRepo.getOneBy({ email });
       if (!user) {
         throw new Error("Email not found!");
@@ -66,5 +66,5 @@ module.exports = {
       if (!validPassword) {
         throw new Error("Invalid password");
       }
-    }),
+    })
 };

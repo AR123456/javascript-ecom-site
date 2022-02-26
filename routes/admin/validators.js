@@ -2,12 +2,27 @@ const { check } = require("express-validator");
 const usersRepo = require("../../repositories/users");
 
 module.exports = {
+  // title is the "name" we gave it on the input form
+  requireTitle: check("title")
+    .notEmpty()
+    .isSlug()
+    .trim()
+    .isLength({ min: 5, max: 40 })
+    .withMessage("enter a valid title "),
+  requirePrice: check("price")
+    .notEmpty()
+    .trim()
+    // https://www.udemy.com/course/javascript-beginners-complete-tutorial/learn/lecture/17007492#overview
+    // this is a string , needs to be a number
+    .toFloat()
+    .isFloat({ min: 1 }),
+
   requireEmail: check("email")
     .trim()
     .normalizeEmail()
     .isEmail()
     .withMessage("Must be a valid email")
-    .custom(async email => {
+    .custom(async (email) => {
       const existingUser = await usersRepo.getOneBy({ email });
       if (existingUser) {
         throw new Error("Email in use");
@@ -31,7 +46,7 @@ module.exports = {
     .normalizeEmail()
     .isEmail()
     .withMessage("Must provide a valid email")
-    .custom(async email => {
+    .custom(async (email) => {
       const user = await usersRepo.getOneBy({ email });
       if (!user) {
         throw new Error("Email not found!");
@@ -51,5 +66,5 @@ module.exports = {
       if (!validPassword) {
         throw new Error("Invalid password");
       }
-    })
+    }),
 };

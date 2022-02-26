@@ -1,11 +1,13 @@
 // import express
 const express = require("express");
+const { validationResult } = require("express-validator");
 const productsRepo = require("../../repositories/products");
 const productsNewTemplate = require("../../views/admin/products/new");
+// get validators
+const { requireTitle, requirePrice } = require("./validators");
 
-// set up new router
 const router = express.Router();
-// stub out route handlers list products, show form to create product, submit create product form , show edit product , submit edited product and delet product
+
 ///1 list products
 router.get("/admin/products", (req, res) => {
   //user is making request to admin/products
@@ -18,9 +20,16 @@ router.get("/admin/products/new", (req, res) => {
   res.send(productsNewTemplate({}));
 });
 ///3 submit create product form
+// 3 params route, validators and the ususal req,res
+router.post("/admin/products/new", [requireTitle, requireTitle], (req, res) => {
+  //
+  const errors = validationResult(req);
+  console.log(errors);
+  res.send("submitted");
+});
 ///4 show edit product route
 /// 5 submit edited product
 /// 6 delete product
-// export the moule
+// export the module
 module.exports = router;
 // go to index.js and import this router

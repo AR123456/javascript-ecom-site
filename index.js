@@ -7,10 +7,12 @@ const productRouter = require("./routes/admin/products");
 const app = express();
 //middleware
 app.use(express.static("public"));
+// post request coming from public folder will miss this middleware for the image upload
+// this is being passed off to multer in products route
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cookieSession({
-    keys: ["adfkjafdkjl"]
+    keys: ["adfkjafdkjl"],
   })
 );
 // place right below other middleware

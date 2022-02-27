@@ -23,16 +23,10 @@ router.get("/admin/products/new", (req, res) => {
 });
 ///3 submit create product form
 // has 3 params route, validators and the ususal req,res
-// post request coming from the public folder will miss the bodyParser middleware
 router.post(
   "/admin/products/new",
   // order is important here
-  // upload.. is comming from the multer middleware.
-  // since this is coming in from the public dir body parser middleware
-  // in index.js is being missed. (due to the needed order of imports public needs to be before body parser)
-  // so multer is parsing req.body for us
   upload.single("image"),
-  // after upload... so multer can pars the req.body for us
   [requireTitle, requirePrice],
 
   async (req, res) => {
@@ -40,7 +34,6 @@ router.post(
     // this is not a production appropriate solution
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // important to log the errors if there are any - send get errors to the view new.js in products
       return res.send(productsNewTemplate({ errors }));
     }
     const image = req.file.buffer.toString("base64");

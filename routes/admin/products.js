@@ -8,8 +8,6 @@ const productsNewTemplate = require("../../views/admin/products/new");
 const { requireTitle, requirePrice } = require("./validators");
 
 const router = express.Router();
-// multer needs a location to put the file while it is being uploaded, while we are waiting to
-// do something with it in the request handler
 const upload = multer({ storage: multer.memoryStorage() });
 
 ///1 list products
@@ -28,7 +26,6 @@ router.get("/admin/products/new", (req, res) => {
 router.post(
   "/admin/products/new",
   [requireTitle, requireTitle],
-  // here image is coming from the form input name attribute
   upload.single("image"),
   (req, res) => {
     //
@@ -41,6 +38,6 @@ router.post(
 ///4 show edit product route
 /// 5 submit edited product
 /// 6 delete product
-// export the module
+// export the moule
 module.exports = router;
 // go to index.js and import this router

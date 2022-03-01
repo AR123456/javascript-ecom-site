@@ -1,7 +1,7 @@
 // import express
 const express = require("express");
 const multer = require("multer");
-// add the new requireAuth middleware as an import
+
 const { handleErrors, requireAuth } = require("./middlewares");
 const productsRepo = require("../../repositories/products");
 const productsNewTemplate = require("../../views/admin/products/new");
@@ -12,19 +12,18 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 ///1 list products
-// past requireAuth in as a param before the async
 router.get("/admin/products", requireAuth, async (req, res) => {
   //user is making request to admin/products repo
+  //   res is response to browser
+
   const products = await productsRepo.getAll();
   res.send(productsIndexTemplate({ products: products }));
 });
 ///2 show form to create product
-// past requireAuth in as a param before the async
 router.get("/admin/products/new", requireAuth, (req, res) => {
   res.send(productsNewTemplate({}));
 });
 ///3 submit create product form
-// past requireAuth in as a param before the async
 router.post(
   "/admin/products/new",
   requireAuth,

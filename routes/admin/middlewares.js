@@ -14,13 +14,10 @@ module.exports = {
       next();
     };
   },
-  // because the session.userId is created at sign in and stored on the cookie
-  // check for it and if not found redirect to the signin page
   requireAuth(req, res, next) {
     if (!req.session.userId) {
       return res.redirect("/signin");
     }
-    // all is well go on to the next step
     next();
-  },
+  }
 };

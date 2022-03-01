@@ -8,7 +8,7 @@ const {
   requirePassword,
   requirePasswordConfirmation,
   requireEmailExists,
-  requireValidPasswordForUser,
+  requireValidPasswordForUser
 } = require("./validators");
 
 const router = express.Router();
@@ -24,8 +24,6 @@ router.post(
   async (req, res) => {
     const { email, password } = req.body;
     const user = await usersRepo.create({ email, password });
-    // req.session gets stored on the users cookie
-    // so can use this to check to see if it is defined and if it is allow access
     req.session.userId = user.id;
     res.redirect("/admin/products");
   }

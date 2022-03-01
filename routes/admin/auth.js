@@ -1,5 +1,4 @@
 const express = require("express");
-// import the home made middleware 
 const { handleErrors } = require("./middlewares");
 const usersRepo = require("../../repositories/users");
 const signupTemplate = require("../../views/admin/auth/signup");
@@ -9,7 +8,7 @@ const {
   requirePassword,
   requirePasswordConfirmation,
   requireEmailExists,
-  requireValidPasswordForUser,
+  requireValidPasswordForUser
 } = require("./validators");
 
 const router = express.Router();
@@ -21,8 +20,6 @@ router.get("/signup", (req, res) => {
 router.post(
   "/signup",
   [requireEmail, requirePassword, requirePasswordConfirmation],
-  // this is a home made middleware that can be used here and in
-  //the sign in post request to keep things cleaner
   handleErrors(signupTemplate),
   async (req, res) => {
     const { email, password } = req.body;

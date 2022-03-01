@@ -28,7 +28,7 @@ module.exports = class Repository {
   async getAll() {
     return JSON.parse(
       await fs.promises.readFile(this.filename, {
-        encoding: "utf8"
+        encoding: "utf8",
       })
     );
   }
@@ -42,18 +42,20 @@ module.exports = class Repository {
   randomId() {
     return crypto.randomBytes(4).toString("hex");
   }
+  // use this get one to get the record with the record.id we need
+  // will use this in the products.js route
   async getOne(id) {
     const records = await this.getAll();
-    return records.find(record => record.id === id);
+    return records.find((record) => record.id === id);
   }
   async delete(id) {
     const records = await this.getAll();
-    const filteredRecords = records.filter(record => record.id !== id);
+    const filteredRecords = records.filter((record) => record.id !== id);
     await this.writeAll(filteredRecords);
   }
   async update(id, attrs) {
     const records = await this.getAll();
-    const record = records.find(record => record.id === id);
+    const record = records.find((record) => record.id === id);
     if (!record) {
       throw new Error(`No record found with id of ${id}`);
     }

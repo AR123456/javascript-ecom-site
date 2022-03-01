@@ -4,11 +4,9 @@ const usersRepo = require("../../repositories/users");
 module.exports = {
   // title is the "name" we gave it on the input form
   requireTitle: check("title")
-    .notEmpty()
-    .isSlug()
     .trim()
     .isLength({ min: 5, max: 40 })
-    .withMessage("Must be title case and 5 to 40 chars"),
+    .withMessage("Must be between 5 and 40 characters"),
   requirePrice: check("price")
     .notEmpty()
     .trim()

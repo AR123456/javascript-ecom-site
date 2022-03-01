@@ -8,8 +8,10 @@ module.exports = ({ products }) => {
   // create HTML snippit
   // resulting array then turned into string to put into the template literal in the retun
   //.join puts them into one big string
+  // use string interpolation to add the product id being iterated over to the href on th edit button
+  // send to that url - need to have a route receive the request
   const renderedProducts = products
-    .map(product => {
+    .map((product) => {
       //
       return `
       <tr>
@@ -49,7 +51,7 @@ module.exports = ({ products }) => {
           ${renderedProducts}
         </tbody>
       </table>
-    `
+    `,
   });
 };
 // this goes to producuts.js in the routes admin folder

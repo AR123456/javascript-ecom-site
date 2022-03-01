@@ -1,5 +1,4 @@
 const express = require("express");
-
 const { handleErrors } = require("./middlewares");
 const usersRepo = require("../../repositories/users");
 const signupTemplate = require("../../views/admin/auth/signup");
@@ -25,9 +24,7 @@ router.post(
   async (req, res) => {
     const { email, password } = req.body;
     const user = await usersRepo.create({ email, password });
-
     req.session.userId = user.id;
-
     res.redirect("/admin/products");
   }
 );
@@ -47,11 +44,9 @@ router.post(
   handleErrors(signinTemplate),
   async (req, res) => {
     const { email } = req.body;
-
     const user = await usersRepo.getOneBy({ email });
-
     req.session.userId = user.id;
-
+    // res.send("You are signed in!!!");
     res.redirect("/admin/products");
   }
 );

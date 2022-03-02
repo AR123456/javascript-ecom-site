@@ -53,29 +53,25 @@ router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
 router.post(
   "/admin/products/:id/edit",
   requireAuth,
-  // look for a file uploaded under the image property,
-  //we used image in the name attribute for this in the view
   upload.single("image"),
-  // now add in validators
   [requireTitle, requirePrice],
-  // error handling helpers middleware pass in ref to template to show again.
-  // also need to account for the actual product in the handleErrors template which we are not yet
-  handleErrors(productsEditTemplate),
+  // taking care of products undefined error since middleware has the errors object but edit.js view expects a product
+  // change the signature of handleErrors to get a template as first arg
+  // second is a function that will execute only if something goes wrong with the validation step
+  handleErrors(productsEditTemplate, async (req) => {
+    // object with data that goes to the view template
+    const product = await productsRepo.getOne(req.params.id);
+    // need to get this object to the template
+    return { product: product };
+  }),
   async (req, res) => {
-    // take changes passed to us and apply updates into the products repo
-    // changes represent our edits
     const changes = req.body;
-    // check to see if a file was supplied with request
     if (req.file) {
-      // apply the update to the changes object - encode as base 64 string
       changes.image = req.file.buffer.toString("base64");
     }
-    //This may throw an error so catch it
     try {
-      // apply to  req.params from URL and changes object.
       await productsRepo.update(req.params.id, changes);
     } catch (err) {
-      // idealy this would redirect to form
       return res.send("Could not find item");
     }
     res.redirect("/admin/products");

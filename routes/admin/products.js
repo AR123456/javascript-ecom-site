@@ -3,7 +3,6 @@ const express = require("express");
 const multer = require("multer");
 
 const { handleErrors, requireAuth } = require("./middlewares");
-// will be using the methods in here to perform the CRUD operations defined in the repo
 const productsRepo = require("../../repositories/products");
 const productsNewTemplate = require("../../views/admin/products/new");
 const productsIndexTemplate = require("../../views/admin/products/index");
@@ -41,18 +40,23 @@ router.post(
 );
 ///4 show edit product route
 // the id of the product in the URL needs to be encoded
-// :id is a wild card that will be the actual product being sent from the view button click
-router.get("/admin/products/:id/edit", async (req, res) => {
+router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
   // console.log(req.params.id);
   // get product values from the repo
   const product = await productsRepo.getOne(req.params.id);
-  // check to make sure there is a product 
   if (!product) {
     return res.send("Product not found ");
   }
   res.send(productsEditTemplate({ product }));
 });
 /// 5 submit edited product
+router.post(
+  "/admin/products/:id/edit",
+  requireAuth,
+  (async(req, res) = {
+    //
+  })
+);
 /// 6 delete product
 // export the moule
 module.exports = router;

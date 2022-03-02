@@ -42,7 +42,6 @@ router.post(
 // the id of the product in the URL needs to be encoded
 router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
   // console.log(req.params.id);
-  // get product values from the repo
   const product = await productsRepo.getOne(req.params.id);
   if (!product) {
     return res.send("Product not found ");
@@ -55,14 +54,9 @@ router.post(
   requireAuth,
   upload.single("image"),
   [requireTitle, requirePrice],
-  // taking care of products undefined error since middleware has the errors object but edit.js view expects a product
-  // change the signature of handleErrors to get a template as first arg
-  // second is a function that will execute only if something goes wrong with the validation step
   handleErrors(productsEditTemplate, async (req) => {
-    // object with data that goes to the view template
     const product = await productsRepo.getOne(req.params.id);
-    // need to get this object to the template
-    return { product: product };
+    return { product };
   }),
   async (req, res) => {
     const changes = req.body;

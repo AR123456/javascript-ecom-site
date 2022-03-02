@@ -53,9 +53,33 @@ router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
 router.post(
   "/admin/products/:id/edit",
   requireAuth,
-  (async(req, res) = {
-    //
-  })
+  // look for a file uploaded under the image property,
+  //we used image in the name attribute for this in the view
+  upload.single("image"),
+  // now add in validators
+  [requireTitle, requirePrice],
+  // error handling helpers middleware pass in ref to template to show again.
+  // also need to account for the actual product in the handleErrors template which we are not yet
+  handleErrors(productsEditTemplate),
+  async (req, res) => {
+    // take changes passed to us and apply updates into the products repo
+    // changes represent our edits
+    const changes = req.body;
+    // check to see if a file was supplied with request
+    if (req.file) {
+      // apply the update to the changes object - encode as base 64 string
+      changes.image = req.file.buffer.toString("base64");
+    }
+    //This may throw an error so catch it
+    try {
+      // apply to  req.params from URL and changes object.
+      await productsRepo.update(req.params.id, changes);
+    } catch (err) {
+      // idealy this would redirect to form
+      return res.send("Could not find item");
+    }
+    res.redirect("/admin/products");
+  }
 );
 /// 6 delete product
 // export the moule

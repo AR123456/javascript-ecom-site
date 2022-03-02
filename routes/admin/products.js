@@ -72,6 +72,13 @@ router.post(
   }
 );
 /// 6 delete product
+router.post("/admin/products/:id/delete", requireAuth, async (req, res) => {
+  // the actual route handling function - use teh delete function that was created in repository.js
+  // get the id out of the URL
+  await productsRepo.delete(req.params.id);
+
+  res.redirect("/admin/products");
+});
 // export the moule
 module.exports = router;
 // go to index.js and import this router

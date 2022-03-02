@@ -3,13 +3,14 @@ const layout = require("../layout");
 const { getError } = require("../../helpers");
 
 module.exports = ({ products }) => {
-  // this function will map through the products and build out html snipit
-  //map  over list of products
-  // create HTML snippit
-  // resulting array then turned into string to put into the template literal in the retun
-  //.join puts them into one big string
+  // wrap the del button in a form element to take advantage for the forms
+  //built in post request behavior vs the href atrubutes  default of get
+  // http delete reqquest would be better but form only supports post or ge, not delete.
+  // so using oost to make the del
+  // using post method and action of the url we are going to make post to
+  // then in routes make a post request handler that looks for this post reqeust URL
   const renderedProducts = products
-    .map(product => {
+    .map((product) => {
       //
       return `
       <tr>
@@ -23,7 +24,9 @@ module.exports = ({ products }) => {
           </a>
         </td>
         <td>
-          <button class="button is-danger">Delete</button>
+         <form method="POST" action="/admin/products/${product.id}/delete">  
+         <button class="button is-danger">Delete</button> 
+         </form>
         </td>
       </tr>
     `;
@@ -49,7 +52,7 @@ module.exports = ({ products }) => {
           ${renderedProducts}
         </tbody>
       </table>
-    `
+    `,
   });
 };
 // this goes to producuts.js in the routes admin folder

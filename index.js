@@ -17,7 +17,7 @@ app.use(
 );
 // place right below other middleware
 app.use(authRouter);
-// associate the producst router with the app
+
 app.use(productsRouter);
 app.use(adminProductsRouter);
 // add the carts router

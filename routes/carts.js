@@ -1,14 +1,30 @@
 // create the router object and associate rotes to it
-
 const express = require("express");
-
+const carts = require("../repositories/carts");
+// need this repo to create the cart
+const cartRepo = require("../repositories/carts");
 const router = express.Router();
-// ////route handlerpost add item to cart
-// receive  add item post request to add item to a cart button triggers a post reqeust .
-// start in the view with the add to cart button and mak sure it is wrapped in a from with a post method and action that contains the URL to send it to.
-// Need to make sure that what is sent also has the info about the specific product that belongs to the button .  Could do this by adding as s string at end of urs or using a hidden input on the form so that the user will not see it. Give a hidden input of the product id see this in action n the products index.js view
 // Note that is will come in on the rec.body
-router.post("/cart/products", (req, res) => {
+router.post("/cart/products", async (req, res) => {
+  //cart logic- cookie session does this user have a cart on cartId property coming from cart repo
+  // the cart is scoped to the if statement  so declare here so it can be updated in the if
+  let cart;
+
+  if (!req.session.cartId) {
+    //no cart so create one and store it on rec.session.cartId property
+    // create a starting object , empty array by default
+    cart = await cartRepo.create({ items: [] });
+    // assing the id of the cart to rec.session
+    req.session.cartId = cart.id;
+  } else {
+    // there is a cart get it. Use method  from the repository repo get one method
+    cart = await cartsRepo.getOne(req.session.cartId);
+  }
+  console.log(cart);
+  // increment quantity for existing product or add new product to items array
+
+  // update quantity or is this a ndw itme
+
   console.log(req.body.productId);
   res.send("Product added to cart");
 });

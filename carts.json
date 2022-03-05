@@ -8,7 +8,16 @@
     "id": "ba8e8c04"
   },
   {
-    "items": [],
+    "items": [
+      {
+        "id": "ac3d7258",
+        "quantity": 1
+      },
+      {
+        "id": "9317ff17",
+        "quantity": 3
+      }
+    ],
     "id": "0328c7f3"
   }
 ]

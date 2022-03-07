@@ -48,14 +48,17 @@ router.get("/cart", async (req, res) => {
 router.post("/cart/products/delete", async (req, res) => {
   // console.log(req.body.itemId);
   const { itemId } = req.body;
-  console.log(itemId);
+  // console.log(itemId);
   const cart = await cartsRepo.getOne(req.session.cartId);
+  console.log(cart);
   // filer out what returns false so if this item dosent match up with and item in the array filter it out.
   // true add to new array
-  // false forget the item , do not add to new array
+  // // false forget the item , do not add to new array
   const items = cart.items.filter((item) => item.id !== itemId);
+  // console.log(items);
   // now update the cart -
   // update takes 2 params id of item and object of attributes we want to replace on the target record
+  // console.log(req.session.cartId)
   await cartsRepo.update(req.session.cartTd, { items });
   // send respons back to go back to cart page
   res.redirect("/cart");

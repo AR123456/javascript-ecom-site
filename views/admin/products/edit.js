@@ -1,5 +1,5 @@
-const layout = require("../layout");
-const { getError } = require("../../helpers");
+const layout = require('../layout');
+const { getError } = require('../../helpers');
 
 module.exports = ({ product, errors }) => {
   return layout({
@@ -14,7 +14,7 @@ module.exports = ({ product, errors }) => {
               <input value="${
                 product.title
               }" class="input" placeholder="Title" name="title">
-              <p class="help is-danger">${getError(errors, "title")}</p>
+              <p class="help is-danger">${getError(errors, 'title')}</p>
             </div>
             
             <div class="field">
@@ -22,7 +22,7 @@ module.exports = ({ product, errors }) => {
               <input value="${
                 product.price
               }" class="input" placeholder="Price" name="price">
-              <p class="help is-danger">${getError(errors, "price")}</p>
+              <p class="help is-danger">${getError(errors, 'price')}</p>
             </div>
             
             <div class="field">
@@ -34,6 +34,6 @@ module.exports = ({ product, errors }) => {
           </form>
         </div>
       </div>
-    `,
+    `
   });
 };

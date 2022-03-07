@@ -1,10 +1,12 @@
-// start with layout
 const layout = require("../layout");
 
 module.exports = ({ items }) => {
+  // reducer to get total price
   const totalPrice = items.reduce((prev, item) => {
+    // provide this to next iteration
     return prev + item.quantity * item.product.price;
   }, 0);
+
   const renderedItems = items
     .map((item) => {
       return `
@@ -17,9 +19,8 @@ module.exports = ({ items }) => {
             <div class="price is-size-4">
               $${item.product.price * item.quantity}
             </div>
-            <div class="remove" >
-              <form method="POST" action="/cart/products/delete">
-              <input hidden value="${item.id}" name="itemId"/>
+            <div class="remove">
+              <form method="POST">
                 <button class="button is-danger">                  
                   <span class="icon is-small">
                     <i class="fas fa-times"></i>

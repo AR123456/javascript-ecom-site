@@ -1,8 +1,8 @@
-const layout = require("../layout");
+const layout = require('../layout');
 
 module.exports = ({ products }) => {
   const renderedProducts = products
-    .map((product) => {
+    .map(product => {
       return `
         <div class="column is-one-quarter">
           <div class="card product-card">
@@ -14,18 +14,18 @@ module.exports = ({ products }) => {
               <h5>$${product.price}</h5>
             </div>
             <footer class="card-footer">
-            <form action="/cart/products" method="POST">
-            <input hidden value="${product.id}" name="productId" />
-            <button class="button has-icon is-inverted">
-              <i class="fa fa-shopping-cart"></i> Add to cart
-            </button>
-          </form>
+              <form action="/cart/products" method="POST">
+                <input hidden value="${product.id}" name="productId" />
+                <button class="button has-icon is-inverted">
+                  <i class="fa fa-shopping-cart"></i> Add to cart
+                </button>
+              </form>
             </footer>
           </div>
         </div>
       `;
     })
-    .join("\n");
+    .join('\n');
 
   return layout({
     content: `
@@ -53,6 +53,6 @@ module.exports = ({ products }) => {
           </div>
         </div>
       </section>
-    `,
+    `
   });
 };

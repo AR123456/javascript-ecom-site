@@ -2,18 +2,8 @@
 const layout = require("../layout");
 
 module.exports = ({ items }) => {
-  // getting total price for the cart
-  // let totalPrice = 0;
-  // for (let item of items) {
-  //   // one way to get the total of the cart
-  //   totalPrice += item.quantity * item.product.price;
-  // }
-  //// getting total using reduce prev is an accumulater item is what we are iterating over.
   const totalPrice = items.reduce((prev, item) => {
-    // do this with the loops, need to return so it is avalible on next iteration
     return prev + item.quantity * item.product.price;
-
-    // this zero is the second argument to reduce - it will be passed in as prev above
   }, 0);
   const renderedItems = items
     .map((item) => {
@@ -27,8 +17,9 @@ module.exports = ({ items }) => {
             <div class="price is-size-4">
               $${item.product.price * item.quantity}
             </div>
-            <div class="remove">
-              <form method="POST">
+            <div class="remove" >
+              <form method="POST" action="/cart/products/delete">
+              <input hidden value="${item.id}" name="itemId"/>
                 <button class="button is-danger">                  
                   <span class="icon is-small">
                     <i class="fas fa-times"></i>

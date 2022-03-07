@@ -1,11 +1,7 @@
-// create the router object and associate rotes to it
 const express = require("express");
-const carts = require("../repositories/carts");
-// need this repo to create the cart
+// const carts = require("../repositories/carts");
 const cartsRepo = require("../repositories/carts");
-// need to display products in cart
 const productsRepo = require("../repositories/products");
-// so that we can use and send data to this teplate
 const cartShowTemplate = require("../views/carts/show");
 const router = express.Router();
 // Note that is will come in on the rec.body
@@ -52,6 +48,7 @@ router.get("/cart", async (req, res) => {
 router.post("/cart/products/delete", async (req, res) => {
   // console.log(req.body.itemId);
   const { itemId } = req.body;
+  console.log(itemId);
   const cart = await cartsRepo.getOne(req.session.cartId);
   // filer out what returns false so if this item dosent match up with and item in the array filter it out.
   // true add to new array

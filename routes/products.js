@@ -1,10 +1,11 @@
-const express = require('express');
-const productsRepo = require('../repositories/products');
-const productsIndexTemplate = require('../views/products/index');
+//TODO this file may be ok as is for customers vs users
+const express = require("express");
+const productsRepo = require("../repositories/products");
+const productsIndexTemplate = require("../views/products/index");
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   const products = await productsRepo.getAll();
   res.send(productsIndexTemplate({ products }));
 });

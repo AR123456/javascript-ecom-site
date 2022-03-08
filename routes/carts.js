@@ -1,3 +1,4 @@
+// TODO look at this for changes also need to tie to customer if and when customer logs in 
 const express = require("express");
 const cartsRepo = require("../repositories/carts");
 const productsRepo = require("../repositories/products");

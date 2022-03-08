@@ -50,7 +50,9 @@ module.exports = ({ items }) => {
                 Total
               </div>
               <h1 class="title">$${totalPrice}</h1>
-              <button class="button is-primary">Buy</button>
+
+              <a href="/custSignin" class="social"><button class="social is-primary">Check Out<i class="fa fa-shopping-cart"></i></button></a>
+             
             </div>
           </div>
           <div class="column"></div>

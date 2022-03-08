@@ -1,3 +1,4 @@
+//TODO  what if any of this needs to be added to or changed for customer users 
 const fs = require('fs');
 const crypto = require('crypto');
 

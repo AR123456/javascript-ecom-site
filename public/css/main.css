@@ -121,7 +121,7 @@ body {
 }
 
 .quantity:before {
-  content: '#';
+  content: "#";
   position: absolute;
   z-index: 10;
   top: 0;
@@ -143,4 +143,7 @@ body {
 .cart-right {
   display: flex;
   align-items: center;
+}
+.buy {
+  text-decoration: none;
 }

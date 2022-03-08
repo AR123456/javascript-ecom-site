@@ -1,3 +1,4 @@
+//TODO check for need to update to take care of customers and their purchases
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");

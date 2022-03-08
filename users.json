@@ -1,8 +1,5 @@
 [
   {
-    "email": "test@test.com"
-  },
-  {
     "email": "asdf@aslkdfj.com",
     "password": "password",
     "id": "4cad493a"
@@ -96,5 +93,10 @@
     "email": "alskdfj@alskjdf.com",
     "password": "502670212f115561ff637096e984e425f1a5cc33748053f08aaf52a34430743d40158ee28206dd9813fc9fc81bd26a8a54e515c606ac3f97d20e9f1085bcbb9e.c34e6f08e5943cbd",
     "id": "f68a3efe"
+  },
+  {
+    "email": "test@test.com",
+    "password": "dfa496a121f62f871d2f890598ea6dbfdf9d4695d6ab94368e619a470478e2eb14db3f0e1fe14f624b5ebf71539f45b297913ab5d76eb0f53ceede030f516827.2f755eb5e2cf50ea",
+    "id": "a215007c"
   }
 ]

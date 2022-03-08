@@ -33,6 +33,7 @@ module.exports = ({ content }) => {
                   <li><a href=""><i class="fab fa-linkedin"></i></a></li>
                   <li><a href=""><i class="fab fa-dribbble"></i></a></li>
                   <li><a href=""><i class="fab fa-google-plus"></i></a></li>
+                  <li><a href="/admin/products"><i class="fa fa-user"></i></a></li>
                 </ul>
               </div>
             </div>

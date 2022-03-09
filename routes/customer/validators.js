@@ -1,17 +1,29 @@
 const { check } = require("express-validator");
 // TODO point to customers repo  should the admin have an additinal admin id requirement
-const usersRepo = require("../../repositories/users");
+const usersRepo = require("../../repositories/customers");
 
 module.exports = {
-  requireTitle: check("title")
-    .trim()
-    .isLength({ min: 5, max: 40 })
-    .withMessage("Must be between 5 and 40 characters"),
-  requirePrice: check("price")
-    .trim()
-    .toFloat()
-    .isFloat({ min: 1 })
-    .withMessage("Must be a number greater than 1"),
+  //TODO will need customer specific required items ie log in to make a purchase or supply at time of purchase if not account
+
+  // First Name
+  // Last Name
+  // Home address for credit card validation
+  // Shipping address if not home
+  // email
+  // password
+  // credit card number
+  // exp date of card
+  // 3 digit code of card
+  // zip code for card address
+  // requireTitle: check("title")
+  //   .trim()
+  //   .isLength({ min: 5, max: 40 })
+  //   .withMessage("Must be between 5 and 40 characters"),
+  // requirePrice: check("price")
+  //   .trim()
+  //   .toFloat()
+  //   .isFloat({ min: 1 })
+  //   .withMessage("Must be a number greater than 1"),
   requireEmail: check("email")
     .trim()
     .normalizeEmail()

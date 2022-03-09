@@ -1,5 +1,5 @@
-//TODO redirect to customer specific routes 
-const { validationResult } = require('express-validator');
+//TODO test if customer login fails or works
+const { validationResult } = require("express-validator");
 
 module.exports = {
   handleErrors(templateFunc, dataCb) {
@@ -19,11 +19,11 @@ module.exports = {
     };
   },
   requireAuth(req, res, next) {
-    // TODO direct to customer specific route 
+    // TODO test
     if (!req.session.userId) {
-      return res.redirect('/signin');
+      return res.redirect("/customerSignin");
     }
 
     next();
-  }
+  },
 };

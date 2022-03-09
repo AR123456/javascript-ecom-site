@@ -2,7 +2,7 @@ const express = require("express");
 
 const { handleErrors } = require("./middlewares");
 //TODO  this should point to a customer repository not users which is admin
-const usersRepo = require("../../repositories/users");
+const usersRepo = require("../../repositories/customers");
 const signupTemplate = require("../../views/carts/customerAuth/custSignup");
 const signinTemplate = require("../../views/carts/customerAuth/custSignin");
 //TODO will need customer specific validator to not allow customer to admin activities
@@ -17,7 +17,7 @@ const {
 const router = express.Router();
 
 router.get("/custSignup", (req, res) => {
-  // TODO send the custmer signup template
+  // TODO test this
   res.send(signupTemplate({ req }));
 });
 
@@ -27,27 +27,28 @@ router.post(
   handleErrors(signupTemplate),
   async (req, res) => {
     const { email, password } = req.body;
-    //TODO point this to the customerRepo - all of this should be customerId ect not user
+    //TODO point this to the customers repo, is that enough ? - all of this should be customerId ect not user
     const user = await usersRepo.create({ email, password });
 
     req.session.userId = user.id;
     // TODO this should go the pages a customer needs to make a purchase
-    res.redirect("/admin/products");
+    // res.redirect("/admin/products");
+    res.send("You have signed up ");
   }
 );
-// TODO this should be a customer signout
-router.get("/signout", (req, res) => {
+
+router.get("/customerSignout", (req, res) => {
   req.session = null;
-  // redirect to products page
-  res.send("You are logged out");
+  //TODO redirect to /
+  res.send("Customer is logged out");
 });
 // TODO send the customer signintemplate
-router.get("/signin", (req, res) => {
+router.get("/customerSignin", (req, res) => {
   res.send(signinTemplate({}));
 });
-// TODO this sould be customer sign in
+// TODO this should be customer sign in
 router.post(
-  "/signin",
+  "/customerSignin",
   [requireEmailExists, requireValidPasswordForUser],
   handleErrors(signinTemplate),
   async (req, res) => {
@@ -56,8 +57,9 @@ router.post(
     const user = await usersRepo.getOneBy({ email });
 
     req.session.userId = user.id;
-    // redirect to the pages that allow user to make purchase
-    res.redirect("/admin/products");
+    // TODOredirect to the pages that allow user to make purchase
+    // res.redirect("/admin/products");
+    res.send("customer is logged in");
   }
 );
 

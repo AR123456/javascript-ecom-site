@@ -1,12 +1,12 @@
-// TODO this should be re configured to be for customers not users which are admins
+// TODO updated need to test
 const fs = require("fs");
 const crypto = require("crypto");
 const util = require("util");
 const Repository = require("./repository");
 
 const scrypt = util.promisify(crypto.scrypt);
-// TODO need CustomerRepository
-class UsersRepository extends Repository {
+
+class CustomersRepository extends Repository {
   async comparePasswords(saved, supplied) {
     // Saved -> password saved in our database. 'hashed.salt'
     // Supplied -> password given to us by a user trying sign in
@@ -34,5 +34,5 @@ class UsersRepository extends Repository {
     return record;
   }
 }
-//TODO export CustomersRepository different json
-module.exports = new UsersRepository("users.json");
+
+module.exports = new CustomersRepository("customers.json");

@@ -6,6 +6,7 @@ const usersRepo = require("../../repositories/customers");
 const signupTemplate = require("../../views/carts/customerAuth/custSignup");
 const signinTemplate = require("../../views/carts/customerAuth/custSignin");
 //TODO will need customer specific validator to not allow customer to admin activities
+//TODO need required name address for customers , if purchase credit card info 
 const {
   requireEmail,
   requirePassword,
@@ -20,7 +21,7 @@ router.get("/custSignup", (req, res) => {
   // TODO test this
   res.send(signupTemplate({ req }));
 });
-
+//TODO add required name and address, later credit card info 
 router.post(
   "/custSignup",
   [requireEmail, requirePassword, requirePasswordConfirmation],

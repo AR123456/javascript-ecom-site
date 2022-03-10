@@ -65,4 +65,7 @@ router.post("/cart/products/delete", async (req, res) => {
   await cartsRepo.update(req.session.cartId, { items });
   res.redirect("/cart");
 });
+//TODO need to associate the session ID with the customer when they click the purchase button. Likley put this isn customer/purchase.js 
+// TODO if they are not yet logged in they need to or somehow assoicate the cart with them while they make the purchase Likley put this isn customer/purchase.js 
+// 
 module.exports = router;

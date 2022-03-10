@@ -31,12 +31,11 @@ module.exports = {
     .trim()
     .isLength({ min: 2, max: 40 })
     .withMessage("Must be between 2 and 40 characters"),
-  //TODO look at best practices for zip code
+
   requireZip: check("zip")
     .trim()
-    .toFloat()
-    .isFloat({ min: 5, max: 5 })
-    .withMessage("Must be an 8 digit zip code"),
+    .isPostalCode("US")
+    .withMessage("Must be an 5 digit zip code"),
   requireEmail: check("email")
     .trim()
     .normalizeEmail()

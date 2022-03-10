@@ -6,7 +6,8 @@ const authRouter = require("./routes/admin/auth");
 const adminProductsRouter = require("./routes/admin/products");
 const productsRouter = require("./routes/products");
 const cartsRouter = require("./routes/carts");
-
+const customerAuthRouter = require("./routes/customer/custAuth");
+// const customerPurchaseRouter = require("./routes/customer/purchase")
 const app = express();
 
 app.use(express.static("public"));
@@ -20,6 +21,7 @@ app.use(authRouter);
 app.use(productsRouter);
 app.use(adminProductsRouter);
 app.use(cartsRouter);
+app.use(customerAuthRouter);
 
 const port = 3000;
 

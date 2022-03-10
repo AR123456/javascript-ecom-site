@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "fname": "John",
+    "lname": "Doe",
+    "address": "123 Main",
+    "city": "Aurora",
+    "state": "Co",
+    "zip": "80012",
+    "email": "test@test.com",
+    "password": "f20fdeaeae86943fcfdcc65ec65812bd8a1239ee17f677175ba2fa5a974c05b929e620e8c652589172160c472ca0201d48df6e34abda506735e6dacc3570608c.4d39f4000f782439",
+    "id": "ce8aee49"
+  }
+]

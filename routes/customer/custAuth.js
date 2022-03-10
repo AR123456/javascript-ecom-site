@@ -43,10 +43,20 @@ router.post(
   ],
   handleErrors(signupTemplate),
   async (req, res) => {
-    const { fname, email, password } = req.body;
+    const { fname, lname, address, city, state, zip, email, password } =
+      req.body;
     //TODO point this to the customers repo, is that enough ? - all of this should be customerId ect not user
     // TODO send other feilds to the customer repo
-    const user = await usersRepo.create({ fname, email, password });
+    const user = await usersRepo.create({
+      fname,
+      lname,
+      address,
+      city,
+      state,
+      zip,
+      email,
+      password,
+    });
 
     req.session.userId = user.id;
     // TODO kick off validation process email with link to log in

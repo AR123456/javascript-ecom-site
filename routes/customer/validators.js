@@ -4,39 +4,26 @@ const usersRepo = require("../../repositories/customers");
 
 module.exports = {
   //TODO will need customer specific required items ie log in to make a purchase or supply at time of purchase if not account
+
+  // First Name
+  // Last Name
+  // Home address for credit card validation
+  // Shipping address if not home
+  // email
+  // password
   // credit card number
   // exp date of card
   // 3 digit code of card
   // zip code for card address
-  requireFirstName: check("fname")
+  requireName: check("fname")
     .trim()
     .isLength({ min: 2, max: 40 })
     .withMessage("Must be between 2 and 40 characters"),
-  requireLastName: check("lname")
-    .trim()
-    .isLength({ min: 2, max: 40 })
-    .withMessage("Must be between 2 and 40 characters"),
-  //TODO look at street address best practices
-  requireAddress: check("address")
-    .trim()
-    .isLength({ min: 2, max: 40 })
-    .withMessage("Must be between 2 and 40 characters"),
-  //TODO look at best practice for citys
-  requireCity: check("city")
-    .trim()
-    .isLength({ min: 2, max: 40 })
-    .withMessage("Must be between 2 and 40 characters"),
-  //TODO look at best practices for states
-  requireState: check("state")
-    .trim()
-    .isLength({ min: 2, max: 40 })
-    .withMessage("Must be between 2 and 40 characters"),
-  //TODO look at best practices for zip code
-  requireZip: check("zip")
-    .trim()
-    .toFloat()
-    .isFloat({ min: 5, max: 5 })
-    .withMessage("Must be an 8 digit zip code"),
+  // requirePrice: check("price")
+  //   .trim()
+  //   .toFloat()
+  //   .isFloat({ min: 1 })
+  //   .withMessage("Must be a number greater than 1"),
   requireEmail: check("email")
     .trim()
     .normalizeEmail()

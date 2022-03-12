@@ -45,8 +45,7 @@ router.post(
   async (req, res) => {
     const { fname, lname, address, city, state, zip, email, password } =
       req.body;
-    //TODO point this to the customers repo, is that enough ? - all of this should be customerId ect not user
-    // TODO send other feilds to the customer repo
+
     const user = await usersRepo.create({
       fname,
       lname,
@@ -88,8 +87,8 @@ router.post(
     // TODOredirect to the pages that allow user to make purchase
     // TODO make purchase page
     // res.redirect("/admin/products");
-    res.send("customer is logged in");
-    // res.redirect("/cart");
+    // res.send("customer is logged in");
+    res.redirect("/purchase");
   }
 );
 

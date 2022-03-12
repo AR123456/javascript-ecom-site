@@ -10,6 +10,10 @@ module.exports = ({ items }) => {
   const shipping = subTotalPrice * 0.25;
   const tax = subTotalPrice * 0.075;
   const grandTotal = subTotalPrice + shipping + tax;
+  //TODO const that is getting the associated users address render it in shipping address
+  // look at routes/customer/middleware try to console.log (req.session.userId)
+
+  //TODO const that is the assoicated users payment method
 
   const renderedItems = items
     .map((item) => {
@@ -45,30 +49,22 @@ module.exports = ({ items }) => {
         <div class="columns">
           <div class="column"></div>
           <div class="column is-four-fifths">
-            <h3 class="subtitle"><b>Shopping Cart</b></h3>
+              <h3 class="subtitle"><b>Shopping Cart</b></h3>
             <div>
               ${renderedItems}
             </div>
-            <div class="total message is-info">
-              <div class="message-header">
-                  Product Total
-              </div>
+            <div>Product Total</div>
               <h1 class="title">$${subTotalPrice}</h1>
-              <div class="total message is-info">
-              <div class="message-header">
-                  Shipping
-              </div>
+            <div>Shipping</div>
               <h1 class="title">$${shipping}</h1>
-              <div class="total message is-info">
-              <div class="message-header">
-                  Tax
-              </div>
+            <div>Tax</div>
               <h1 class="title">$${tax}</h1>
-              <div class="total message is-info">
-              <div class="message-header">
-                  Grand Total
-              </div>
+            <div class="total message is-info">
+            <div class="message-header">Grand Total</div>
+            </div>
               <h1 class="title">$${grandTotal}</h1>
+              <div> Shipping address</div>
+              <div>Payment method</div>
 
               <a href="/" class="social"><button class="social is-primary">Confirm Purchase <i class="fa fa-shopping-cart"></i></button></a>
              

@@ -66,6 +66,7 @@ router.post(
 
 router.get("/custSignout", (req, res) => {
   req.session = null;
+  //TODO clear local storage
   //TODO redirect to /
   res.send("Customer is logged out");
 });
@@ -86,7 +87,14 @@ router.post(
     req.session.userId = user.id;
     //TODO need to get the cart id associated with this session assinged to this user
     console.log(`The user id is ${user.id} comming from custAuth.js route`);
-    // console.log(`The cart ID is ${cart.id} comming from custAuth.js route`);
+    // TODO after sign in add user id to local storage
+    if (typeof window !== "undefined") {
+      console.log("we are running on the client");
+      localStorage.setItem("signedInUser", "user.id");
+    } else {
+      console.log("we are running on the server");
+    }
+
     res.redirect("/purchase");
   }
 );

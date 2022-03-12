@@ -80,9 +80,17 @@ router.get("/purchase", async (req, res) => {
 
     item.product = product;
   }
+  //TODO gut user id from local storage, pull in the shipping address from user and show on template
 
   res.send(purchaseTemplate({ items: cart.items }));
   console.log(`The cart ID is ${cart.id} comming from carts.js route`);
+  if (typeof window !== "undefined") {
+    console.log("we are running on the client");
+    customer = localStorage.getItem("signedInUser");
+    console.log(customer);
+  } else {
+    console.log("we are running on the server");
+  }
 });
 // TODO if they are not yet logged in they need to or somehow assoicate the cart with them while they make the purchase Likley put this isn customer/purchase.js
 //

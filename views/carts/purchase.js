@@ -11,10 +11,11 @@ module.exports = ({ items }) => {
   const tax = subTotalPrice * 0.075;
   const grandTotal = subTotalPrice + shipping + tax;
   //TODO const that is getting the associated users address render it in shipping address
-  // look at routes/customer/middleware try to console.log (req.session.userId)
+  // have added items to cart, cart is associated with user
+  // cookie : cart id lesson 435 routes carts.js
 
   //TODO const that is the assoicated users payment method
-
+  //TODO after purchase remove items from the users cart
   const renderedItems = items
     .map((item) => {
       return `

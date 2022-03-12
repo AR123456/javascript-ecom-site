@@ -84,10 +84,9 @@ router.post(
     const user = await usersRepo.getOneBy({ email });
 
     req.session.userId = user.id;
-    // TODOredirect to the pages that allow user to make purchase
-    // TODO make purchase page
-    // res.redirect("/admin/products");
-    // res.send("customer is logged in");
+    //TODO need to get the cart id associated with this session assinged to this user
+    console.log(`The user id is ${user.id} comming from custAuth.js route`);
+    // console.log(`The cart ID is ${cart.id} comming from custAuth.js route`);
     res.redirect("/purchase");
   }
 );

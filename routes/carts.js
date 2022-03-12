@@ -66,7 +66,7 @@ router.post("/cart/products/delete", async (req, res) => {
   await cartsRepo.update(req.session.cartId, { items });
   res.redirect("/cart");
 });
-//TODO need to associate the session ID with the customer when they click the purchase button. Likley put this isn customer/purchase.js
+//TODO need to associate the cart.id with the customer when they click the purchase button. Likley put this isn customer/purchase.js
 // Receive a GET request to show all items in cart
 router.get("/purchase", async (req, res) => {
   if (!req.session.cartId) {
@@ -82,6 +82,7 @@ router.get("/purchase", async (req, res) => {
   }
 
   res.send(purchaseTemplate({ items: cart.items }));
+  console.log(`The cart ID is ${cart.id} comming from carts.js route`);
 });
 // TODO if they are not yet logged in they need to or somehow assoicate the cart with them while they make the purchase Likley put this isn customer/purchase.js
 //

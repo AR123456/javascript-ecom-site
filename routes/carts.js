@@ -3,6 +3,7 @@ const express = require("express");
 const cartsRepo = require("../repositories/carts");
 const productsRepo = require("../repositories/products");
 const cartShowTemplate = require("../views/carts/show");
+const purchaseTemplate = require("../views/carts/purchase");
 
 const router = express.Router();
 
@@ -66,6 +67,22 @@ router.post("/cart/products/delete", async (req, res) => {
   res.redirect("/cart");
 });
 //TODO need to associate the session ID with the customer when they click the purchase button. Likley put this isn customer/purchase.js
+// Receive a GET request to show all items in cart
+router.get("/purchase", async (req, res) => {
+  if (!req.session.cartId) {
+    return res.redirect("/");
+  }
+
+  const cart = await cartsRepo.getOne(req.session.cartId);
+
+  for (let item of cart.items) {
+    const product = await productsRepo.getOne(item.id);
+
+    item.product = product;
+  }
+
+  res.send(purchaseTemplate({ items: cart.items }));
+});
 // TODO if they are not yet logged in they need to or somehow assoicate the cart with them while they make the purchase Likley put this isn customer/purchase.js
 //
 module.exports = router;

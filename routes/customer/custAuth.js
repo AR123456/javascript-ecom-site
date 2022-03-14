@@ -88,12 +88,6 @@ router.post(
     //TODO need to get the cart id associated with this session assinged to this user
     console.log(`The user id is ${user.id} comming from custAuth.js route`);
     // TODO after sign in add user id to local storage
-    if (typeof window !== "undefined") {
-      console.log("we are running on the client");
-      localStorage.setItem("signedInUser", "user.id");
-    } else {
-      console.log("we are running on the server");
-    }
 
     res.redirect("/purchase");
   }
